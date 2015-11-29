@@ -1,15 +1,15 @@
 package com.bitcoin.blockchain.api.service.v2wallet;
 
-import com.bitcoin.blockchain.api.core.bip32.Derivation;
-import com.bitcoin.blockchain.api.core.bip32.ExtendedKey;
-import com.bitcoin.blockchain.api.core.bip32.Hash;
-import com.bitcoin.blockchain.api.core.bip32.Seed;
 import com.bitcoin.blockchain.api.domain.PersistedV2Key;
 import com.bitcoin.blockchain.api.domain.V2Key;
 import com.bitcoin.blockchain.api.domain.V2WalletDescriptor;
 import com.bitcoin.blockchain.api.domain.V2WalletSetting;
 import com.bitcoin.blockchain.api.persistence.V2WalletKeyDAO;
-import com.bitcoin.blockchain.api.util.ByteUtil;
+import com.bushidowallet.core.bitcoin.bip32.Derivation;
+import com.bushidowallet.core.bitcoin.bip32.ExtendedKey;
+import com.bushidowallet.core.bitcoin.bip32.Hash;
+import com.bushidowallet.core.bitcoin.bip32.Seed;
+import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 

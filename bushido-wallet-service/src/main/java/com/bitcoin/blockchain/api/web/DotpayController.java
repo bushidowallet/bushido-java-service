@@ -1,9 +1,9 @@
 package com.bitcoin.blockchain.api.web;
 
-import com.bitcoin.blockchain.api.core.bip32.Hash;
 import com.bitcoin.blockchain.api.domain.TopUpNotification;
 import com.bitcoin.blockchain.api.service.v2wallet.V2WalletService;
-import com.bitcoin.blockchain.api.util.ByteUtil;
+import com.bushidowallet.core.bitcoin.bip32.Hash;
+import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

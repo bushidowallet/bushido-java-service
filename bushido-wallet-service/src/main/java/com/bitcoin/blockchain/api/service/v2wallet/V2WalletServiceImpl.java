@@ -1,6 +1,5 @@
 package com.bitcoin.blockchain.api.service.v2wallet;
 
-import com.bitcoin.blockchain.api.core.bip32.Hash;
 import com.bitcoin.blockchain.api.domain.*;
 import com.bitcoin.blockchain.api.domain.Error;
 import com.bitcoin.blockchain.api.domain.message.ClientMessageBase;
@@ -11,7 +10,8 @@ import com.bitcoin.blockchain.api.persistence.UserDAOImpl;
 import com.bitcoin.blockchain.api.persistence.V2WalletDAO;
 import com.bitcoin.blockchain.api.service.transaction.TransactionService;
 import com.bitcoin.blockchain.api.util.AccountUtil;
-import com.bitcoin.blockchain.api.util.ByteUtil;
+import com.bushidowallet.core.bitcoin.bip32.Hash;
+import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

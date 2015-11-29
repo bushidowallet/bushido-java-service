@@ -18,6 +18,7 @@
         <bitcoinj.version>0.12</bitcoinj.version>
         <sendgrid.version>2.2.2</sendgrid.version>
         <apache.commons.version>1.10</apache.commons.version>
+        <bushido.service.version>1.0.0-SNAPSHOT</bushido.service.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -44,15 +45,9 @@
         </dependency>
         <dependency>
             <groupId>com.bitcoin.blockchain.api</groupId>
-            <artifactId>wallet-api-lib</artifactId>
+            <artifactId>bushido-service-lib</artifactId>
             <scope>compile</scope>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.bitcoin.blockchain.api</groupId>
-            <artifactId>wallet-api-service-lib</artifactId>
-            <scope>compile</scope>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${bushido.service.version}</version>
         </dependency>
         <dependency>
             <groupId>com.wordnik</groupId>
