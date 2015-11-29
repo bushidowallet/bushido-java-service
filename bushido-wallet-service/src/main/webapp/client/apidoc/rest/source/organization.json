@@ -1,0 +1,106 @@
+{
+  "apiVersion" : "v2",
+  "swaggerVersion" : "1.2",
+  "basePath" : "https://api.bushidowallet.com/walletapi/api/v2",
+  "resourcePath" : "/organization",
+  "produces" : [ "application/json" ],
+  "apis" : [ {
+    "path" : "/organization/",
+    "operations" : [ {
+      "method" : "DELETE",
+      "summary" : "Delete an organization",
+      "notes" : "Deletes an organization. Restricted to admins only.",
+      "type" : "void",
+      "nickname" : "delete",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Organization object",
+        "required" : true,
+        "type" : "Organization",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      }, {
+        "code" : 401,
+        "message" : "Invalid Credentials"
+      } ]
+    }, {
+      "method" : "GET",
+      "summary" : "List organizations",
+      "notes" : "Lists all organizations. Restricted to admins only.",
+      "type" : "Response",
+      "nickname" : "list",
+      "parameters" : [ ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      }, {
+        "code" : 401,
+        "message" : "Invalid Credentials"
+      } ]
+    }, {
+      "method" : "POST",
+      "summary" : "Create an organization",
+      "notes" : "Creates an organization. ApiKey value ignored. Restricted to admins only.",
+      "type" : "Response",
+      "nickname" : "create",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Organization object",
+        "required" : true,
+        "type" : "Organization",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      }, {
+        "code" : 401,
+        "message" : "Invalid Credentials"
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "Organization" : {
+      "id" : "Organization",
+      "properties" : {
+        "key" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "apiKey" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Response" : {
+      "id" : "Response",
+      "properties" : {
+        "payload" : {
+          "$ref" : "Object"
+        },
+        "errors" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "Error"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "id" : "Error",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}

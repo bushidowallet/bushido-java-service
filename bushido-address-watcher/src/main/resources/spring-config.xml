@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd"
+       default-destroy-method="dispose">
+
+    <!-- Application beans -->
+
+    <bean id="config" class="com.bitcoin.blockchain.api.application.ApplicationConfig">
+        <property name="environment" value="${app.bitcoin.env}"/>
+    </bean>
+
+    <bean id="addressWatcher" class="com.bitcoin.blockchain.api.indexer.AddressWatcher"/>
+    <bean id="txBroadcaster" class="com.bitcoin.blockchain.api.indexer.TxBroadcaster"/>
+
+    <!-- Rabbit -->
+
+    <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg><value>${app.rabbit.host}</value></constructor-arg>
+        <property name="username" value="${app.rabbit.username}"/>
+        <property name="password" value="${app.rabbit.password}"/>
+        <property name="virtualHost" value="/"/>
+        <property name="port" value="${app.rabbit.port}"/>
+    </bean>
+
+    <bean id="jsonConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>
+
+    <rabbit:admin id="amqpAdmin" connection-factory="connectionFactory"/>
+
+    <!-- Wallet 2 Indexer -->
+
+    <rabbit:queue name="wallet2indexerQueue"/>
+    <rabbit:direct-exchange name="wallet2indexerExchange" durable="true"/>
+
+    <bean id="receiver" class="com.bitcoin.blockchain.api.indexer.MessageReceiver"/>
+
+    <rabbit:listener-container connection-factory="connectionFactory" message-converter="jsonConverter">
+        <rabbit:listener queues="wallet2indexerQueue" ref="receiver" method="receive" admin="amqpAdmin"/>
+    </rabbit:listener-container>
+
+    <!-- Indexer 2 Wallet -->
+
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+
+    <bean id="sender" class="com.bitcoin.blockchain.api.indexer.MessageSender"/>
+
+</beans>

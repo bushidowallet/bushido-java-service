@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd"
+       default-destroy-method="dispose">
+
+    <!-- Application beans -->
+
+    <bean id="config" class="com.bitcoin.blockchain.api.application.ApplicationConfig">
+        <property name="environment" value="${app.bitcoin.env}"/>
+        <property name="mockMode" value="false"/>
+    </bean>
+
+    <bean id="onstart" class="org.springframework.scheduling.support.PeriodicTrigger">
+        <constructor-arg name="period" value="20000"/>
+        <property name="initialDelay" value="5000"/>
+    </bean>
+
+    <bean id="exchangeTrigger" class="org.springframework.scheduling.support.PeriodicTrigger">
+        <constructor-arg name="period" value="10000"/>
+        <property name="initialDelay" value="0"/>
+    </bean>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="v2WalletMessageRouter" method="ping" trigger="onstart"/>
+        <task:scheduled ref="exchangeDataAccessor" method="getData" trigger="exchangeTrigger"/>
+    </task:scheduled-tasks>
+
+    <bean id="exchangeDataAccessor" class="com.bitcoin.blockchain.api.exchange.ExchangeDataAccessor"/>
+    <bean id="exchangeModel" class="com.bitcoin.blockchain.api.domain.ExchangeModel"/>
+
+    <!-- V2 wallet -->
+
+    <bean id="v2WalletRegistry" class="com.bitcoin.blockchain.api.service.v2wallet.V2WalletRegistry"/>
+    <bean id="v2Wallet" class="com.bitcoin.blockchain.api.service.v2wallet.V2Wallet" scope="prototype"/>
+    <bean id="v2Keygen" class="com.bitcoin.blockchain.api.service.v2wallet.V2Keygen" scope="prototype"/>
+
+    <!-- Rabbit Start -->
+
+    <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg><value>${app.rabbit.host}</value></constructor-arg>
+        <property name="username" value="${app.rabbit.username}"/>
+        <property name="password" value="${app.rabbit.password}"/>
+        <property name="virtualHost" value="/"/>
+        <property name="port" value="${app.rabbit.port}"/>
+    </bean>
+
+    <rabbit:admin id="amqpAdmin" connection-factory="connectionFactory"/>
+
+    <!-- Wallets -->
+
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+
+    <rabbit:listener-container connection-factory="connectionFactory" message-converter="jsonConverter">
+        <rabbit:listener queues="v2wallet" ref="v2WalletReceiver" method="receiveMessage" admin="amqpAdmin"/>
+    </rabbit:listener-container>
+
+    <bean id="jsonConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>
+
+    <!-- V2 Wallet -->
+
+    <bean id="v2WalletMessageRouter" class="com.bitcoin.blockchain.api.service.v2wallet.V2WalletMessageRouter"/>
+    <bean id="v2WalletReceiver" class="com.bitcoin.blockchain.api.service.v2wallet.V2WalletMessageReceiver"/>
+    <rabbit:queue name="v2wallet"/>
+    <rabbit:queue id="v2qupdates" name="v2q-wallet-updates"/>
+    <rabbit:topic-exchange id="v2eupdates" name="v2e-wallet-updates"/>
+
+    <!-- End Wallets -->
+
+    <!-- Backend-->
+
+    <rabbit:queue name="indexer2walletQueue"/>
+    <rabbit:direct-exchange name="indexer2walletExchange" durable="true"/>
+
+    <bean id="indexerToWalletReceiver" class="com.bitcoin.blockchain.api.messaging.IndexerToWalletReceiver"/>
+
+    <rabbit:listener-container connection-factory="connectionFactory" message-converter="jsonConverter">
+        <rabbit:listener queues="indexer2walletQueue" ref="indexerToWalletReceiver" method="receive" admin="amqpAdmin"/>
+    </rabbit:listener-container>
+
+    <bean id="walletToIndexerSender" class="com.bitcoin.blockchain.api.messaging.WalletToIndexerSender"/>
+
+    <!-- End Backend -->
+
+    <!-- Rabbit End -->
+
+    <!-- Mongo DB -->
+
+    <mongo:mongo host="${app.mongo.host}" port="${app.mongo.port}" id="mongo" />
+    <mongo:db-factory username="${app.mongo.username}" password="${app.mongo.password}" dbname="walletapiservice" mongo-ref="mongo" id="mongoDbFactory"/>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    </bean>
+
+    <!-- Security -->
+
+    <bean id="users" class="com.bitcoin.blockchain.api.data.Users"/>
+
+    <security:http use-expressions="true" create-session="stateless" authentication-manager-ref="authenticationManager">
+        <security:intercept-url pattern="/client/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <security:http-basic/>
+    </security:http>
+
+    <bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+
+    <bean id="userDetailsService" class="com.bitcoin.blockchain.api.security.UserDetailsServiceImpl"/>
+
+    <bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
+        <property name="userPropertyToUse" value="username"/>
+    </bean>
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="userDetailsService">
+            <security:password-encoder ref="passwordEncoder">
+                <security:salt-source ref="saltSource"/>
+            </security:password-encoder>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <security:global-method-security secured-annotations="enabled"/>
+
+    <!-- Email -->
+
+    <bean id="sendGridManager" class="com.bitcoin.blockchain.api.mail.SendGridManager"/>
+
+</beans>

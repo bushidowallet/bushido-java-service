@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bushido Websocket API JavaScript &mdash; Bushido Websocket API JavaScript 1.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Bushido Websocket API JavaScript 1.0 documentation" href="#"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="#" class="fa fa-home"> Bushido Websocket API JavaScript</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Bushido Websocket API JavaScript</a><ul>
+<li><a class="reference internal" href="#wallet-notifications">Wallet notifications</a><ul>
+<li><a class="reference internal" href="#balance-change-received">BALANCE_CHANGE_RECEIVED</a></li>
+<li><a class="reference internal" href="#balance-change-spent">BALANCE_CHANGE_SPENT</a></li>
+<li><a class="reference internal" href="#balance-change-status">BALANCE_CHANGE_STATUS</a></li>
+<li><a class="reference internal" href="#transaction-status-change">TRANSACTION_STATUS_CHANGE</a></li>
+<li><a class="reference internal" href="#instrument-change">INSTRUMENT_CHANGE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#request-reply-commands">Request/Reply commands</a><ul>
+<li><a class="reference internal" href="#get-address">GET_ADDRESS</a></li>
+<li><a class="reference internal" href="#get-unspent-outputs">GET_UNSPENT_OUTPUTS</a></li>
+<li><a class="reference internal" href="#get-instrument-data">GET_INSTRUMENT_DATA</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#request-only-commands">Request Only commands</a><ul>
+<li><a class="reference internal" href="#spend-all-utxo">SPEND_ALL_UTXO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Bushido Websocket API JavaScript</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Bushido Websocket API JavaScript</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="bushido-websocket-api-javascript">
+<h1>Bushido Websocket API JavaScript<a class="headerlink" href="#bushido-websocket-api-javascript" title="Permalink to this headline">¶</a></h1>
+<p>WalletApi.js is a library that takes interacting with Bushido via WebSocket connection down to a few lines of JavaScript code.
+It provides ability to listen for wallet notifications as well as invoking request/reply and request only commands on a wallet.
+The main purpose of this library is to reduce development time required to implement functionality provided by Bushido service.</p>
+<p>WalletApi.js constructor arguments.</p>
+<dl class="class">
+<dt id="WalletApi">
+<em class="property">class </em><tt class="descname">WalletApi</tt><big>(</big><em>serviceUrl</em>, <em>username</em>, <em>password</em>, <em>walletId</em>, <em>autoConnect</em>, <em>connectCommand</em>, <em>connectPayload</em>, <em>connectHandler</em>, <em>subscribeDestination</em>, <em>sendDestination</em><big>)</big><a class="headerlink" href="#WalletApi" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>serviceUrl</strong> (<em>string</em>) &#8211; Wallet API WebSocket endpoint</li>
+<li><strong>username</strong> (<em>string</em>) &#8211; Username of a person logged in</li>
+<li><strong>password</strong> (<em>string</em>) &#8211; User password</li>
+<li><strong>walletId</strong> (<em>string</em>) &#8211; Wallet Id being interacted with</li>
+<li><strong>autoConnect</strong> (<em>boolean</em>) &#8211; specifies whether to connect automatically without the need to execute connect() method</li>
+<li><strong>connectCommand</strong> (<em>string</em>) &#8211; command to execute immediately after connection is established</li>
+<li><strong>connectPayload</strong> (<em>object</em>) &#8211; payload that has to be carried with connect command</li>
+<li><strong>connectHandler</strong> (<em>function</em>) &#8211; handler that has to be notified when connection command&#8217;s response is back</li>
+<li><strong>subscribeDestination</strong> (<em>string</em>) &#8211; Desitnation for server to client messaging</li>
+<li><strong>sendDestination</strong> (<em>string</em>) &#8211; Destination for client to server messaging</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Basic initialization example.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">walletApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WalletApi</span><span class="p">(</span><span class="s1">&#39;https://websockets.bushidowallet.com/stomp&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;myWallet&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;/exchange/e-wallet-updates/&#39;</span><span class="p">,</span> <span class="s1">&#39;/queue/wallet&#39;</span><span class="p">).</span><span class="nx">connect</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="section" id="wallet-notifications">
+<h2>Wallet notifications<a class="headerlink" href="#wallet-notifications" title="Permalink to this headline">¶</a></h2>
+<p>Wallet notification is a outbound message dispatched by Wallet API without inbound trigger message originating from the client.
+Notifications are triggered by internal wallet events. You can register a listener for a notification by using addListener() method.</p>
+<dl class="function">
+<dt id="addListener">
+<tt class="descname">addListener</tt><big>(</big><em>command</em>, <em>handler</em><big>)</big><a class="headerlink" href="#addListener" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> (<em>string</em>) &#8211; Type of notification</li>
+<li><strong>handler</strong> (<em>function</em>) &#8211; Function to be executed once notification message arrives</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>It may be required to stop listening for some notification types. If this is the case, a method removeListener() has to be executed.</p>
+<dl class="function">
+<dt id="removeListener">
+<tt class="descname">removeListener</tt><big>(</big><em>command</em>, <em>handler</em><big>)</big><a class="headerlink" href="#removeListener" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> (<em>string</em>) &#8211; Type of notification</li>
+<li><strong>handler</strong> (<em>function</em>) &#8211; Function to be executed once notification message arrives</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Wallet API currently supports the following types of notifications:</p>
+<div class="section" id="balance-change-received">
+<h3>BALANCE_CHANGE_RECEIVED<a class="headerlink" href="#balance-change-received" title="Permalink to this headline">¶</a></h3>
+<p>Dispatched when wallet balance changed as a result of an inbound transaction.</p>
+</div>
+<div class="section" id="balance-change-spent">
+<h3>BALANCE_CHANGE_SPENT<a class="headerlink" href="#balance-change-spent" title="Permalink to this headline">¶</a></h3>
+<p>Dispatched when wallet balance changed as a result of an outbound transaction.</p>
+</div>
+<div class="section" id="balance-change-status">
+<h3>BALANCE_CHANGE_STATUS<a class="headerlink" href="#balance-change-status" title="Permalink to this headline">¶</a></h3>
+<p>Dispatched when wallet balance changed as a result of a transaction going to confirmed state.</p>
+</div>
+<div class="section" id="transaction-status-change">
+<h3>TRANSACTION_STATUS_CHANGE<a class="headerlink" href="#transaction-status-change" title="Permalink to this headline">¶</a></h3>
+<p>Dispatched when a status of a transaction done in the past has changed. This can mean that the transaction went from &#8220;Pending&#8221; to &#8220;Confirmed&#8221; status, or depth of a block containing this transaction has changed as a result of a new block being mined. In other words it means a number of confirmations increased.</p>
+</div>
+<div class="section" id="instrument-change">
+<h3>INSTRUMENT_CHANGE<a class="headerlink" href="#instrument-change" title="Permalink to this headline">¶</a></h3>
+<p>Dispatched when an instrument registered as related to wallet changes. This could be for example a local currency to Bitcoin FX pair. It can be used to render prices in a local currency as opposed in Bitcoins.</p>
+<p>Code example: Initialize WalletApi and listen for all available notifications.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">walletApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WalletApi</span><span class="p">(</span><span class="s1">&#39;https://websockets.bushidowallet.com/stomp&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;myWallet&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;/exchange/e-wallet-updates/&#39;</span><span class="p">,</span> <span class="s1">&#39;/queue/wallet&#39;</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;BALANCE_CHANGE_RECEIVED&#39;</span><span class="p">,</span> <span class="nx">balanceChangedHandler</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;BALANCE_CHANGE_SPENT&#39;</span><span class="p">,</span> <span class="nx">balanceChangedHandler</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;BALANCE_CHANGE_STATUS&#39;</span><span class="p">,</span> <span class="nx">balanceChangedStatusHandler</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;TRANSACTION_STATUS_CHANGE&#39;</span><span class="p">,</span> <span class="nx">transactionStatusChangeHandler</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;INSTRUMENT_CHANGE&#39;</span><span class="p">,</span> <span class="nx">instrumentChangeHandler</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">connect</span><span class="p">();</span>
+
+<span class="kd">function</span> <span class="nx">balanceChangeHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">//do things...</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">balanceChangedHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">//do things...</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">transactionStatusChangeHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">//do things...</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">instrumentChangeHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">//do things...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="request-reply-commands">
+<h2>Request/Reply commands<a class="headerlink" href="#request-reply-commands" title="Permalink to this headline">¶</a></h2>
+<p>Request/Reply commands consist of two messages. A client outbound message - which is a trigger for server reply message.
+This model allows the Wallet API to respond for a particular request from a front end.</p>
+<p>In order to execute Request/Reply command, you need to use invoke() command:</p>
+<dl class="function">
+<dt id="invoke">
+<tt class="descname">invoke</tt><big>(</big><em>command</em><span class="optional">[</span>, <em>payload</em>, <em>responseHandler</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#invoke" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> (<em>string</em>) &#8211; Type of command</li>
+<li><strong>payload</strong> (<em>object</em>) &#8211; Optional, payload to be attached to the request message</li>
+<li><strong>responseHandler</strong> (<em>function</em>) &#8211; Optional, function to be executed once server responds by sending a reply message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Wallet API currently supports the following types of Request/Reply commands:</p>
+<div class="section" id="get-address">
+<h3>GET_ADDRESS<a class="headerlink" href="#get-address" title="Permalink to this headline">¶</a></h3>
+<p>This command allows to fetch the current receive address, and current balance.</p>
+</div>
+<div class="section" id="get-unspent-outputs">
+<h3>GET_UNSPENT_OUTPUTS<a class="headerlink" href="#get-unspent-outputs" title="Permalink to this headline">¶</a></h3>
+<p>This command allows to fetch the list of unspent outputs associated with the wallet.</p>
+<p>Code example: Execute a command to fetch the unspent outputs list, with auto connect on.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">walletApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WalletApi</span><span class="p">(</span><span class="s1">&#39;https://websockets.bushidowallet.com/stomp&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;myWallet&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;/exchange/e-wallet-updates/&#39;</span><span class="p">,</span> <span class="s1">&#39;/queue/wallet&#39;</span><span class="p">);</span>
+<span class="nx">walletApi</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">&#39;GET_UNSPENT_OUTPUTS&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">getUnspentOutputsHandler</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">getUnspentOutputsHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">//do things...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-instrument-data">
+<h3>GET_INSTRUMENT_DATA<a class="headerlink" href="#get-instrument-data" title="Permalink to this headline">¶</a></h3>
+<p>This command allows to fetch the instrument data, like local currency to BTC pair.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">walletApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WalletApi</span><span class="p">(</span><span class="s1">&#39;https://websockets.bushidowallet.com/stomp&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;myWallet&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;/exchange/e-wallet-updates/&#39;</span><span class="p">,</span> <span class="s1">&#39;/queue/wallet&#39;</span><span class="p">);</span>
+<span class="c1">//wallet has associated an instrument, so there is no need to specify a request payload.</span>
+<span class="nx">walletApi</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">&#39;GET_INSTRUMENT_DATA&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">getInstrumentDataHandler</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">getInstrumentDataHandler</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nx">alert</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">bid</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="request-only-commands">
+<h2>Request Only commands<a class="headerlink" href="#request-only-commands" title="Permalink to this headline">¶</a></h2>
+<p>Request Only commands are client outbound commands instructing Wallet API to perform operation. They do not await a server response though.
+A method to use is invoke(), but without supplying a responseHandler, since a response is never sent back from the server.</p>
+<p>Wallet API currently supports the following Request Only commands:</p>
+<div class="section" id="spend-all-utxo">
+<h3>SPEND_ALL_UTXO<a class="headerlink" href="#spend-all-utxo" title="Permalink to this headline">¶</a></h3>
+<p>This command instructs Wallet API to spend all unspent outputs to an address provided.</p>
+<p>Code example: Empty wallet to an address provided.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">walletApi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WalletApi</span><span class="p">(</span><span class="s1">&#39;https://websockets.bushidowallet.com/stomp&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;myWallet&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;/exchange/e-wallet-updates/&#39;</span><span class="p">,</span> <span class="s1">&#39;/queue/wallet&#39;</span><span class="p">);</span>
+<span class="nx">walletApi</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">&#39;SPEND_ALL_UTXO&#39;</span><span class="p">,</span> <span class="s1">&#39;1KxRfiqcNi2GbpdN3pzuQHgewShmeNW9g1&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Robert Jesionek.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

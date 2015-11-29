@@ -1,5 +1,5 @@
 target/
-generated/
 docs/
+generated/
 .idea
 *.iml

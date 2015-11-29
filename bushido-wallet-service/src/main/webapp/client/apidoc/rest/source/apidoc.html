@@ -1,0 +1,2987 @@
+<!DOCTYPE html>
+<html>
+<title>API Document</title>
+
+<xmp theme="united" style="display:none;">
+#Bushido API Documentation
+This document provides API documentation and execution of available methods
+
+Terms of Service: [https://api.bushidowallet.com/walletapi/client/apidoc/tos.html](https://api.bushidowallet.com/walletapi/client/apidoc/tos.html)
+
+Contact: [bushido@riaforge.co.uk](mailto:bushido@riaforge.co.uk)
+
+License: [TBC](https://api.bushidowallet.com/walletapi/client/apidoc/license.html)
+
+
+
+BasePath: https://api.bushidowallet.com/walletapi/api/v2
+
+Api Version: v2
+
+## APIs
+### /organization
+#### Overview
+Operations on organizations
+
+#### **DELETE** `/organization/`
+##### delete 
+
+Delete an organization
+Deletes an organization. Restricted to admins only.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/organization/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Organization object</td>
+        <td><a href="#Organization">Organization</a></td>
+    </tr>
+</table>
+
+###### Response
+[](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+#### **GET** `/organization/`
+##### list 
+
+List organizations
+Lists all organizations. Restricted to admins only.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/organization/
+###### Parameters
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+#### **POST** `/organization/`
+##### create 
+
+Create an organization
+Creates an organization. ApiKey value ignored. Restricted to admins only.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/organization/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Organization object</td>
+        <td><a href="#Organization">Organization</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+### /registration
+#### Overview
+Registration management
+
+#### **POST** `/registration/user`
+##### createUser 
+
+Handle client registration, creates a user
+Handles client registration, creates a user
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/registration/user
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>User object</td>
+        <td><a href="#RegUser">RegUser</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/registration/wallet`
+##### createWallet 
+
+Handle client registration, creates a wallet
+Handles client registration, creates a wallet
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/registration/wallet
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#RegV2WalletDescriptor">RegV2WalletDescriptor</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/registration/organization`
+##### createOrganization 
+
+Handle client registration, create organization
+Handles client registration. Creates organization
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/registration/organization
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Organization object</td>
+        <td><a href="#RegOrganization">RegOrganization</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+### /tx
+#### Overview
+Operations on transactions
+
+#### **POST** `/tx/pushtx`
+##### pushtx 
+
+Push Tx
+Pushes Tx on the wire
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/tx/pushtx
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Tx hex</td>
+        <td><a href="#Tx">Tx</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/tx/notifytx`
+##### notifyConfirmed 
+
+Notify Tx
+Notifies about Tx confirmed
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/tx/notifytx
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Payload</td>
+        <td><a href="#ChainMessage">ChainMessage</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+### /user
+#### Overview
+Operations on users
+
+#### **DELETE** `/user/`
+##### delete 
+
+Delete a user
+Deletes a user
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>User object</td>
+        <td><a href="#User">User</a></td>
+    </tr>
+</table>
+
+###### Response
+[](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+#### **GET** `/user/`
+##### list 
+
+List users
+Lists all users
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/
+###### Parameters
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+#### **POST** `/user/`
+##### create 
+
+Create a user
+Creates a user object
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>User object</td>
+        <td><a href="#User">User</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 401    | Invalid Credentials | - |
+
+
+- - -
+#### **POST** `/user/auth`
+##### login 
+
+Authenticate user
+Authenticates the user and returns a list of owned wallets
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/auth
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Login descriptor</td>
+        <td><a href="#UserLoginRequest">UserLoginRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[UserLoginResponse](#UserLoginResponse)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/account/verify`
+##### accountVerify 
+
+Verify user account
+Verifies user account
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/account/verify
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Account verification descriptor</td>
+        <td><a href="#AccountVerifyRequest">AccountVerifyRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/auth/code`
+##### authCode 
+
+Authenticate user with 2FA code
+Validates user's 2FA code and returns a list of owned wallets
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/auth/code
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Login descriptor</td>
+        <td><a href="#UserLoginRequest">UserLoginRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[UserLoginResponse](#UserLoginResponse)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/auth/code/token`
+##### requestToken 
+
+Send auth token to user&#39;s phone phone via either 2FA application or SMS
+Sends auth token to user's phone via either 2FA application or SMS
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/auth/code/token
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Token request descriptor</td>
+        <td><a href="#Token2FARequest">Token2FARequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset`
+##### resetPassword 
+
+Request Password Reset
+Sends a password reset link
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Password reset request descriptor</td>
+        <td><a href="#AccountRequest">AccountRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/confirm`
+##### confirmResetPassword 
+
+Confirm password reset
+Confirms password reset
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/confirm
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Password reset confirmation descriptor</td>
+        <td><a href="#PasswordResetConfirmationRequest">PasswordResetConfirmationRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/account/verify/init`
+##### initAccountVerify 
+
+Request a verification link
+Requests a verification link
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/account/verify/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Account request descriptor</td>
+        <td><a href="#AccountRequest">AccountRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/code`
+##### verifyResetPasswordCode 
+
+Verify user token&#39;s 2FA code
+Verify user's token 2FA code
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/code
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Tokens 2FA descriptor</td>
+        <td><a href="#SecondFactorTokenRequest">SecondFactorTokenRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/token`
+##### requestVerificationToken2FACode 
+
+Send 2FA code to verification token&#39;s user phone via either 2FA application or SMS
+Send 2FA code to verification token's user phone via either 2FA application or SMS
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/token
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Token request descriptor</td>
+        <td><a href="#SecondFactorCodeDeliveryRequest">SecondFactorCodeDeliveryRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/init`
+##### resetPasswordInit 
+
+Begin password reset operation
+Begins password reset operation
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Password reset request init descriptor</td>
+        <td><a href="#TokenRequest">TokenRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+### /wallet
+#### Overview
+Operations on wallets
+
+#### **GET** `/wallet/`
+##### get 
+
+List wallets
+Lists all wallets. Restricted to admins only
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/
+###### Parameters
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **DELETE** `/wallet/`
+##### delete 
+
+Delete wallet
+Deletes a wallet instance. Restricted to admins only
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/wallet/`
+##### create 
+
+Create wallet
+Creates a wallet instance
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/{key}`
+##### get 
+
+Get wallet
+Gets a specific wallet
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[V2WalletDescriptor](#V2WalletDescriptor)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 404    | Wallet not found | - |
+| 400    | Bad request | - |
+
+
+- - -
+#### **POST** `/wallet/{key}`
+##### addAccount 
+
+Add account to wallet
+Adds account to wallet. Restricted to admins only
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+</table>
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Account object</td>
+        <td><a href="#V2WalletAccount">V2WalletAccount</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/keys`
+##### getKeys 
+
+Get wallet keys
+Gets public keys.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/keys
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/wallet/auth`
+##### login 
+
+Login to wallet
+Checks whether user has permissions to access wallet
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/auth
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#LoginRequest">LoginRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[LoginResponse](#LoginResponse)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/wallet/topup/init`
+##### initTopUp 
+
+Initialize top-up process
+Initializes top-up process
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/topup/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/transactions`
+##### getTransactions 
+
+Get wallet transactions
+Gets transactions with current statuses
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/{key}/spend/all/{address}/push`
+##### spendAllUTXOPush 
+
+Push Tx spending all UTXOs
+Pushes Tx spending all UTXOs
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/push
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>address</th>
+        <td>true</td>
+        <td>Receiving address</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 400    | Bad request | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/outgoing/dt`
+##### getOutgoingTransactionsDt 
+
+Get outgoing wallet transactions for DataTables
+Gets outgoing transactions (spending outputs) with current statuses in a format that is required for DataTables component
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/outgoing/dt
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[TransactionsDTDataProvider](#TransactionsDTDataProvider)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/dt`
+##### getTransactionsDt 
+
+Get wallet transactions for DataTables
+Gets transactions with current statuses in a format that is required for DataTables component
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/dt
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[TransactionsDTDataProvider](#TransactionsDTDataProvider)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/{key}/spend/all/{address}/generate`
+##### spendAllUTXOGenerate 
+
+Generate Tx spending all UTXOs
+Generates Tx spending all UTXOs
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/generate
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>address</th>
+        <td>true</td>
+        <td>Receiving address</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 400    | Bad request | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/outgoing`
+##### getOutgoingTransactions 
+
+Get outgoing wallet transactions
+Gets outgoing transactions (spending outputs) with current statuses
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/outgoing
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/keys`
+##### getTransactionsKeys 
+
+Get transactions keys
+Gets public keys used on transactions
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/keys
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/keys/dt`
+##### getTransactionsKeysDt 
+
+Get transactions keys for DataTables
+Gets public keys used on transactions in a format that is required for DataTables component
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/keys/dt
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[TransactionsKeysDTDataProvider](#TransactionsKeysDTDataProvider)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/unspentoutputs`
+##### getUnspentOutputs 
+
+Get wallet&#39;s unspent outputs
+Gets wallet's unspent outputs.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutputs
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+
+## Data Types
+
+
+## <a name="AccountRequest">AccountRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="AccountVerifyRequest">AccountVerifyRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Balance">Balance</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="ChainMessage">ChainMessage</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#ChainNotification">ChainNotification</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="ChainNotification">ChainNotification</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#ChainTransaction">ChainTransaction</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="ChainTransaction">ChainTransaction</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Object">Array[Object]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Object">Array[Object]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Error">Error</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="FCBalance">FCBalance</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#BigDecimal">BigDecimal</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="LoginRequest">LoginRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="LoginResponse">LoginResponse</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#Error">Array[Error]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Organization">Organization</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="PasswordResetConfirmationRequest">PasswordResetConfirmationRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="RegOrganization">RegOrganization</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="RegUser">RegUser</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>Array[string]</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="RegV2WalletDescriptor">RegV2WalletDescriptor</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletAccount">Array[V2WalletAccount]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#WalletInfo">WalletInfo</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletSetting">Array[V2WalletSetting]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Response">Response</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#Error">Array[Error]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Object">Object</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="SecondFactorCodeDeliveryRequest">SecondFactorCodeDeliveryRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="SecondFactorTokenRequest">SecondFactorTokenRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Token2FARequest">Token2FARequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="TokenRequest">TokenRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Transaction">Transaction</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#TransactionOutput">Array[TransactionOutput]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#TransactionInput">Array[TransactionInput]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="TransactionInput">TransactionInput</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="TransactionOutput">TransactionOutput</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2Key">V2Key</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="TransactionsDTDataProvider">TransactionsDTDataProvider</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Transaction">Array[Transaction]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="TransactionsKeysDTDataProvider">TransactionsKeysDTDataProvider</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2Key">Array[V2Key]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="Tx">Tx</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="User">User</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>Array[string]</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="UserLoginRequest">UserLoginRequest</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="UserLoginResponse">UserLoginResponse</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#User">User</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Error">Array[Error]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletDescriptor">Array[V2WalletDescriptor]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="V2Key">V2Key</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>long</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="V2WalletAccount">V2WalletAccount</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>int</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="V2WalletDescriptor">V2WalletDescriptor</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletAccount">Array[V2WalletAccount]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#WalletInfo">WalletInfo</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#V2WalletSetting">Array[V2WalletSetting]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="V2WalletSetting">V2WalletSetting</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Object">Object</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="WalletInfo">WalletInfo</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#FCBalance">Array[FCBalance]</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Balance">Balance</a></td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>

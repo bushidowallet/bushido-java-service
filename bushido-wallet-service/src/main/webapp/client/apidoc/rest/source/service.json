@@ -1,0 +1,29 @@
+{
+  "apiVersion" : "v2",
+  "swaggerVersion" : "1.2",
+  "apis" : [ {
+    "path" : "/wallet.{format}",
+    "description" : "Operations on wallets"
+  }, {
+    "path" : "/tx.{format}",
+    "description" : "Operations on transactions"
+  }, {
+    "path" : "/organization.{format}",
+    "description" : "Operations on organizations"
+  }, {
+    "path" : "/registration.{format}",
+    "description" : "Registration management"
+  }, {
+    "path" : "/user.{format}",
+    "description" : "Operations on users"
+  } ],
+  "info" : {
+    "title" : "Bushido API Documentation",
+    "description" : "This document provides API documentation and execution of available methods",
+    "termsOfServiceUrl" : "https://api.bushidowallet.com/walletapi/client/apidoc/tos.html",
+    "contact" : "bushido@riaforge.co.uk",
+    "license" : "TBC",
+    "licenseUrl" : "https://api.bushidowallet.com/walletapi/client/apidoc/license.html"
+  },
+  "basePath" : "https://api.bushidowallet.com/walletapi/client/apidoc/rest/source"
+}

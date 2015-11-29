@@ -1,0 +1,164 @@
+================================
+Bushido Websocket API JavaScript
+================================
+
+WalletApi.js is a library that takes interacting with Bushido via WebSocket connection down to a few lines of JavaScript code.
+It provides ability to listen for wallet notifications as well as invoking request/reply and request only commands on a wallet.
+The main purpose of this library is to reduce development time required to implement functionality provided by Bushido service.
+
+WalletApi.js constructor arguments.
+
+.. js:class:: WalletApi(serviceUrl, username, password, walletId, autoConnect, connectCommand, connectPayload, connectHandler, subscribeDestination, sendDestination)
+
+   :param string serviceUrl: Wallet API WebSocket endpoint
+   :param string username: Username of a person logged in
+   :param string password: User password
+   :param string walletId: Wallet Id being interacted with
+   :param boolean autoConnect: specifies whether to connect automatically without the need to execute connect() method
+   :param string connectCommand: command to execute immediately after connection is established
+   :param object connectPayload: payload that has to be carried with connect command
+   :param function connectHandler: handler that has to be notified when connection command's response is back
+   :param string subscribeDestination: Desitnation for server to client messaging
+   :param string sendDestination: Destination for client to server messaging
+
+Basic initialization example.
+
+.. code-block:: javascript
+
+   var walletApi = new WalletApi('https://websockets.bushidowallet.com/stomp', 'username', 'password', 'myWallet', false, null, null, null, '/exchange/e-wallet-updates/', '/queue/wallet').connect();
+
+Wallet notifications
+====================
+
+Wallet notification is a outbound message dispatched by Wallet API without inbound trigger message originating from the client.
+Notifications are triggered by internal wallet events. You can register a listener for a notification by using addListener() method.
+
+.. js:function:: addListener(command, handler)
+
+   :param string command: Type of notification
+   :param function handler: Function to be executed once notification message arrives
+
+It may be required to stop listening for some notification types. If this is the case, a method removeListener() has to be executed.
+
+.. js:function:: removeListener(command, handler)
+
+   :param string command: Type of notification
+   :param function handler: Function to be executed once notification message arrives
+
+Wallet API currently supports the following types of notifications:
+
+BALANCE_CHANGE_RECEIVED
+-----------------------
+Dispatched when wallet balance changed as a result of an inbound transaction.
+
+BALANCE_CHANGE_SPENT
+--------------------
+Dispatched when wallet balance changed as a result of an outbound transaction.
+
+BALANCE_CHANGE_STATUS
+--------------------
+Dispatched when wallet balance changed as a result of a transaction going to confirmed state.
+
+TRANSACTION_STATUS_CHANGE
+-------------------------
+Dispatched when a status of a transaction done in the past has changed. This can mean that the transaction went from "Pending" to "Confirmed" status, or depth of a block containing this transaction has changed as a result of a new block being mined. In other words it means a number of confirmations increased.
+
+INSTRUMENT_CHANGE
+-------------------------
+Dispatched when an instrument registered as related to wallet changes. This could be for example a local currency to Bitcoin FX pair. It can be used to render prices in a local currency as opposed in Bitcoins.
+
+Code example: Initialize WalletApi and listen for all available notifications.
+
+.. code-block:: javascript
+
+   var walletApi = new WalletApi('https://websockets.bushidowallet.com/stomp', 'username', 'password', 'myWallet', false, null, null, null, '/exchange/e-wallet-updates/', '/queue/wallet')
+   .addListener('BALANCE_CHANGE_RECEIVED', balanceChangedHandler)
+   .addListener('BALANCE_CHANGE_SPENT', balanceChangedHandler)
+   .addListener('BALANCE_CHANGE_STATUS', balanceChangedStatusHandler)
+   .addListener('TRANSACTION_STATUS_CHANGE', transactionStatusChangeHandler)
+   .addListener('INSTRUMENT_CHANGE', instrumentChangeHandler)
+   .connect();
+
+   function balanceChangeHandler (message) {
+        //do things...
+   }
+
+   function balanceChangedHandler (message) {
+        //do things...
+   }
+
+   function transactionStatusChangeHandler (message) {
+        //do things...
+   }
+
+   function instrumentChangeHandler (message) {
+        //do things...
+   }
+
+Request/Reply commands
+======================
+
+Request/Reply commands consist of two messages. A client outbound message - which is a trigger for server reply message.
+This model allows the Wallet API to respond for a particular request from a front end.
+
+In order to execute Request/Reply command, you need to use invoke() command:
+
+.. js:function:: invoke(command[, payload, responseHandler])
+
+   :param string command: Type of command
+   :param object payload: Optional, payload to be attached to the request message
+   :param function responseHandler: Optional, function to be executed once server responds by sending a reply message
+
+Wallet API currently supports the following types of Request/Reply commands:
+
+GET_ADDRESS
+-----------
+This command allows to fetch the current receive address, and current balance.
+
+GET_UNSPENT_OUTPUTS
+-------------------
+This command allows to fetch the list of unspent outputs associated with the wallet.
+
+Code example: Execute a command to fetch the unspent outputs list, with auto connect on.
+
+.. code-block:: javascript
+
+   var walletApi = new WalletApi('https://websockets.bushidowallet.com/stomp', 'username', 'password', 'myWallet', true, null, null, null, '/exchange/e-wallet-updates/', '/queue/wallet');
+   walletApi.invoke('GET_UNSPENT_OUTPUTS', null, getUnspentOutputsHandler);
+
+   function getUnspentOutputsHandler (message) {
+        //do things...
+   }
+
+GET_INSTRUMENT_DATA
+-------------------
+This command allows to fetch the instrument data, like local currency to BTC pair.
+
+.. code-block:: javascript
+
+   var walletApi = new WalletApi('https://websockets.bushidowallet.com/stomp', 'username', 'password', 'myWallet', true, null, null, null, '/exchange/e-wallet-updates/', '/queue/wallet');
+   //wallet has associated an instrument, so there is no need to specify a request payload.
+   walletApi.invoke('GET_INSTRUMENT_DATA', null, getInstrumentDataHandler);
+
+   function getInstrumentDataHandler (message) {
+        alert(message.payload.bid);
+   }
+
+Request Only commands
+=====================
+
+Request Only commands are client outbound commands instructing Wallet API to perform operation. They do not await a server response though.
+A method to use is invoke(), but without supplying a responseHandler, since a response is never sent back from the server.
+
+Wallet API currently supports the following Request Only commands:
+
+SPEND_ALL_UTXO
+--------------
+This command instructs Wallet API to spend all unspent outputs to an address provided.
+
+Code example: Empty wallet to an address provided.
+
+.. code-block:: javascript
+
+   var walletApi = new WalletApi('https://websockets.bushidowallet.com/stomp', 'username', 'password', 'myWallet', true, null, null, null, '/exchange/e-wallet-updates/', '/queue/wallet');
+   walletApi.invoke('SPEND_ALL_UTXO', '1KxRfiqcNi2GbpdN3pzuQHgewShmeNW9g1');
