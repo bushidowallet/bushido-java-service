@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.bushidowallet</groupId>
         <artifactId>bushido-java-service</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <properties>
@@ -19,7 +19,6 @@
         <bitcoinj.version>0.12</bitcoinj.version>
         <sendgrid.version>2.2.2</sendgrid.version>
         <apache.commons.version>1.10</apache.commons.version>
-        <bushido.service.version>1.0.0-SNAPSHOT</bushido.service.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -45,10 +44,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.bitcoin.blockchain.api</groupId>
+            <groupId>com.bushidowallet</groupId>
             <artifactId>bushido-service-lib</artifactId>
             <scope>compile</scope>
-            <version>${bushido.service.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.wordnik</groupId>
@@ -93,27 +92,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-        <repository>
-            <id>central</id>
-            <name>Maven Repository Switchboard</name>
-            <layout>default</layout>
-            <url>http://repo1.maven.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-      <pluginRepository>
-        <id>spring-releases</id>
-        <url>https://repo.spring.io/libs-release</url>
-      </pluginRepository>
-    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -146,37 +124,6 @@
                     </apiSources>
                 </configuration>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>com.github.kongchen</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <apiSources>
-                        <apiSource>
-                            <locations>com.bitcoin.blockchain.api.web</locations>
-                            <apiVersion>v2</apiVersion>
-                            <basePath>http://localhost:8080/walletapi/api/v2</basePath>
-                            <apiInfo>
-                                <title>Bushido API Documentation</title>
-                                <description>This document provides API documentation and execution of available methods</description>
-                                <termsOfServiceUrl>http://localhost:8080/walletapi/client/apidoc/tos.html</termsOfServiceUrl>
-                                <contact>bushido@riaforge.co.uk</contact>
-                                <license>TBC</license>
-                                <licenseUrl>http://localhost:8080/walletapi/client/apidoc/license.html</licenseUrl>
-                            </apiInfo>
-                            <overridingModels>/swagger-overriding-models.json</overridingModels>
-                            <swaggerInternalFilter>com.bitcoin.blockchain.api.doc.DocFilter</swaggerInternalFilter>
-                            <outputTemplate>templates/strapdown.html.mustache</outputTemplate>
-                            <mustacheFileRoot>templates/</mustacheFileRoot>
-                            <outputPath>generated/apidoc.html</outputPath>
-                            <swaggerDirectory>generated</swaggerDirectory>
-                            <swaggerUIDocBasePath>http://localhost:8080/walletapi/client/apidoc/rest/source</swaggerUIDocBasePath>
-                            <useOutputFlatStructure>false</useOutputFlatStructure>
-                        </apiSource>
-                    </apiSources>
-                </configuration>
-            </plugin>-->
         </plugins>
     </build>
 </project>

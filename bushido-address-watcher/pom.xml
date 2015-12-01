@@ -10,7 +10,7 @@
 <parent>
     <groupId>com.bushidowallet</groupId>
     <artifactId>bushido-java-service</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <relativePath>../pom.xml</relativePath>
 </parent>
 <properties>
@@ -54,22 +54,10 @@
         <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>com.bitcoin.blockchain.api</groupId>
+        <groupId>com.bushidowallet</groupId>
         <artifactId>bushido-service-lib</artifactId>
         <scope>compile</scope>
         <version>${project.parent.version}</version>
     </dependency>
 </dependencies>
-<repositories>
-  <repository>
-    <id>spring-releases</id>
-    <url>https://repo.spring.io/libs-release</url>
-  </repository>
-</repositories>
-<pluginRepositories>
-  <pluginRepository>
-    <id>spring-releases</id>
-    <url>https://repo.spring.io/libs-release</url>
-  </pluginRepository>
-</pluginRepositories>
 </project>

@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.bushidowallet</groupId>
         <artifactId>bushido-java-service</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <properties>
@@ -19,11 +19,11 @@
         <junit.version>4.11</junit.version>
         <joda.version>2.9.1</joda.version>
 	    <spring.data.mongodb.version>1.6.2.RELEASE</spring.data.mongodb.version>
-        <bushido.core.version>1.0.0-SNAPSHOT</bushido.core.version>
+        <bushido.core.version>1.0.0</bushido.core.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.bushidowallet.core</groupId>
+            <groupId>com.bushidowallet</groupId>
             <artifactId>bushido-core-lib</artifactId>
             <version>${bushido.core.version}</version>
         </dependency>
