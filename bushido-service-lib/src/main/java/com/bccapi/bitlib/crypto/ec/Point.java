@@ -52,7 +52,8 @@ public class Point implements Serializable {
    }
 
    /**
-    * return the field element encoded with point compression. (S 4.3.6)
+    * @return the field element encoded with point compression. (S 4.3.6)
+    *
     */
    public byte[] getEncoded() {
       if (this.isInfinity()) {

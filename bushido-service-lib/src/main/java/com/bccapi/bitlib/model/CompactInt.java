@@ -19,7 +19,6 @@ public class CompactInt {
     *           The byte buffer to read from
     * @return the long value representing the CompactInt read or -1 if the
     *         buffer is too small to hold the CompactInt.
-    * @throws java.io.IOException
     */
    public static long fromByteBuffer(ByteBuffer buf) {
       if (buf.remaining() < 1) {
@@ -82,7 +81,6 @@ public class CompactInt {
     *           The value to write.
     * @param buf
     *           The buffer to write to.
-    * @throws java.io.IOException
     */
    public static void toByteBuffer(long value, ByteBuffer buf) {
       buf.put(toBytes(value));

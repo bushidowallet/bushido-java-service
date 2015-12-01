@@ -22,6 +22,8 @@ public abstract class GeneralDigest {
    /**
     * Copy constructor. We are using copy constructors in place of the
     * Object.clone() interface as this interface is not supported by J2ME.
+    *
+    * @param t digest
     */
    protected GeneralDigest(GeneralDigest t) {
       xBuf = new byte[t.xBuf.length];

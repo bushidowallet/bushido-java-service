@@ -73,6 +73,8 @@ public class ScriptInputPubKey extends ScriptInput {
 
    /**
     * Get the signature of this input.
+    *
+    * @return sig
     */
    public byte[] getSignature() {
       return _signature;

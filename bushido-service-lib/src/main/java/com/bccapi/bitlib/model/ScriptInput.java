@@ -21,6 +21,9 @@ public class ScriptInput extends Script {
     * <p>
     * This is used when verifying or generating signatures, where the input is
     * set to the output of the funding transaction.
+    *
+    * @param output script to create the input script from
+    * @return input script
     */
    public static ScriptInput fromOutputScript(ScriptOutput output) {
       return new ScriptInput(output._scriptBytes);
@@ -33,7 +36,8 @@ public class ScriptInput extends Script {
    /**
     * Special constructor for coinbase scripts
     * 
-    * @param script
+    * @param script script
+    * @param isCoinBase is coin base
     */
    protected ScriptInput(byte[] script, boolean isCoinBase) {
       super(script, isCoinBase);

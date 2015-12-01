@@ -26,6 +26,8 @@ public class RIPEMD160Digest extends GeneralDigest {
 
    /**
     * Copy constructor. This will copy the state of the provided message digest.
+    *
+    * @param t digest
     */
    public RIPEMD160Digest(RIPEMD160Digest t) {
       super(t);

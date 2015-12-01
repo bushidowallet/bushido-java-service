@@ -63,7 +63,7 @@ public class HexUtils {
    /**
     * Encodes a single byte to hex symbols.
     * 
-    * @param byte the byte to encode
+    * @param b the byte to encode
     * @return the resulting hex string
     */
    public static String toHex(byte b) {

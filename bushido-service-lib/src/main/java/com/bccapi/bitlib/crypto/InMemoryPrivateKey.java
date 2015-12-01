@@ -28,6 +28,7 @@ public class InMemoryPrivateKey extends PrivateKey implements KeyExporter, Seria
    /**
     * Construct a random private key using a secure random source. Using this
     * constructor yields uncompressed public keys.
+    * @param random pseudo random number generator
     */
    public InMemoryPrivateKey(SecureRandom random) {
       this(random, false);
@@ -107,8 +108,8 @@ public class InMemoryPrivateKey extends PrivateKey implements KeyExporter, Seria
    /**
     * Construct from private and public key bytes
     * 
-    * @param bytes
-    *           The private key as an array of bytes
+    * @param priBytes The private key as an array of bytes
+    * @param pubBytes The public key bytes
     */
    public InMemoryPrivateKey(byte[] priBytes, byte[] pubBytes) {
       if (priBytes.length != 32) {
@@ -123,6 +124,9 @@ public class InMemoryPrivateKey extends PrivateKey implements KeyExporter, Seria
 
    /**
     * Construct from a base58 encoded key (SIPA format)
+    *
+    * @param base58Encoded private key in Base58 format
+    * @param network bitcoin network to talk to
     */
    public InMemoryPrivateKey(String base58Encoded, NetworkParameters network) {
       byte[] decoded = Base58.decodeChecked(base58Encoded);

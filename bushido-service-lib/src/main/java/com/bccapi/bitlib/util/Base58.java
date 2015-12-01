@@ -32,14 +32,14 @@ import java.util.Arrays;
  * </p>
  * 
  * <p>
- * You may instead wish to work with {@link VersionedChecksummedBytes}, which
+ * You may instead wish to work with VersionedChecksummedBytes, which
  * adds support for testing the prefix and suffix bytes commonly found in
  * addresses.
  * </p>
  * 
  * <p>
  * Satoshi says: why base-58 instead of standard base-64 encoding?
- * <p>
+ * </p>
  * 
  * <ul>
  * <li>Don't want 0OIl characters that look the same in some fonts and could be
@@ -64,7 +64,11 @@ public class Base58 {
       }
    }
 
-   /** Encodes the given bytes in base58. No checksum is appended. */
+   /** Encodes the given bytes in base58. No checksum is appended.
+    *
+    * @param input byte array input
+    * @return string encoded in Base58
+    */
    public static String encode(byte[] input) {
       if (input.length == 0) {
          return "";
@@ -157,6 +161,9 @@ public class Base58 {
    /**
     * Uses the checksum in the last 4 bytes of the decoded data to verify the
     * rest are correct. The checksum is removed from the returned data.
+    *
+    * @param input base58 encoded string
+    * @return byte[] representation of input string if checksum matches
     */
    public static byte[] decodeChecked(String input) {
       byte tmp[] = decode(input);

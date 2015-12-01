@@ -18,6 +18,9 @@ public class PublicKeyRing {
 
    /**
     * Add a public key to the key ring.
+    *
+    * @param key public key
+    * @param network Bitcoin network to talk to
     */
    public void addPublicKey(PublicKey key, NetworkParameters network) {
       Address address = Address.fromStandardPublicKey(key, network);

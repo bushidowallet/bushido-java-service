@@ -1,13 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 <modelVersion>4.0.0</modelVersion>
-<groupId>com.bitcoin.blockchain.api</groupId>
+<groupId>com.bushidowallet</groupId>
 <artifactId>bushido-address-watcher</artifactId>
 <packaging>war</packaging>
-<name>Bushido Address Watcher</name>
-<url>http://maven.apache.org</url>
+<name>${project.groupId}:${project.artifactId}</name>
+<description>Bushido address watching service</description>
+<url>http://www.bushidowallet.com</url>
 <parent>
-    <groupId>com.bitcoin.blockchain.api</groupId>
+    <groupId>com.bushidowallet</groupId>
     <artifactId>bushido-java-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -56,7 +57,7 @@
         <groupId>com.bitcoin.blockchain.api</groupId>
         <artifactId>bushido-service-lib</artifactId>
         <scope>compile</scope>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${parent.version}</version>
     </dependency>
 </dependencies>
 <repositories>

@@ -13,6 +13,9 @@ public class EcTools {
 
    /**
     * Get the length of the byte encoding of a field element
+    *
+    * @param fe field element
+    * @return byte length
     */
    public static int getByteLength(FieldElement fe) {
       return (fe.getFieldSize() + 7) / 8;
@@ -20,10 +23,13 @@ public class EcTools {
 
    /**
     * Get a big integer as an array of bytes of a specified length
+    *
+    * @param s big number
+    * @param length output byte[] length
+    * @return output big int as byte[]
     */
    public static byte[] integerToBytes(BigInteger s, int length) {
       byte[] bytes = s.toByteArray();
-
       if (length < bytes.length) {
          // The length is smaller than the byte representation. Truncate by
          // copying over the least significant bytes
@@ -42,6 +48,10 @@ public class EcTools {
 
    /**
     * Multiply a point with a big integer
+    *
+    * @param p point on curve
+    * @param k multiplier
+    * @return point multiplied by k
     */
    public static Point multiply(Point p, BigInteger k) {
       BigInteger e = k;

@@ -129,6 +129,10 @@ public class Address implements Serializable {
 
    /**
     * Validate that an address is a valid address on the specified network
+    *
+    * @param network bitcoin network this address is on
+    *
+    * @return is valid
     */
    public boolean isValidAddress(NetworkParameters network) {
       byte version = getVersion();

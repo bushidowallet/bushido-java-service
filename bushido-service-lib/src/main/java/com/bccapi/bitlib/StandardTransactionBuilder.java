@@ -208,8 +208,7 @@ public class StandardTransactionBuilder {
     * @param network
     *           The network we are working on
     * @return An unsigned transaction or null if not enough funds were available
-    * @throws InsufficientFundsToPayFeeException
-    * @throws InsufficientFundsException
+    * @throws InsufficientFundsException if there is not enough funds available
     */
    public UnsignedTransaction createUnsignedTransaction(List<UnspentTransactionOutput> unspent, Address changeAddress,
          PublicKeyRing keyRing, NetworkParameters network) throws InsufficientFundsException {

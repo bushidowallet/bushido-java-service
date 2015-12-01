@@ -51,8 +51,8 @@ public class ByteReader {
 
    /**
     * Gets a java long type from 4 bytes of data representing 32-bit unsigned integer
-    * @return
-    * @throws InsufficientBytesException
+    * @return 32-bit unsigned integer
+    * @throws InsufficientBytesException when less than 4 bytes available
     */
    public long getUInt32() throws InsufficientBytesException {
       checkAvailable(4);

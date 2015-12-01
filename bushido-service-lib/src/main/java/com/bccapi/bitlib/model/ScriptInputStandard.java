@@ -76,6 +76,8 @@ public class ScriptInputStandard extends ScriptInput {
 
    /**
     * Get the signature of this input.
+    *
+    * @return sig
     */
    public byte[] getSignature() {
       return _signature;
@@ -86,6 +88,8 @@ public class ScriptInputStandard extends ScriptInput {
     * <p>
     * Look for SIGHASH_ALL, SIGHASH_NONE, SIGHASH_SINGLE, SIGHASH_ANYONECANPAY
     * in the reference client
+    *
+    * @return hash type
     */
    public int getHashType() {
       // hash type is the last byte of the signature

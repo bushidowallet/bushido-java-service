@@ -26,7 +26,8 @@ public class UTXOBuilder {
      * @param scriptBytesHex - hexadecimal representation of a output script bytes
      * @param index - index of an output in containing transaction's outputs list
      * @param value - spendable value
-     * @return
+     * @throws java.lang.Exception when there is script parsing error
+     * @return unspent tx out
      */
     public UnspentTransactionOutput build(String txHash, int height, String scriptBytesHex, int index, long value) throws Exception {
         byte[] utxoScriptBytes =  ByteUtil.fromHex(scriptBytesHex);

@@ -72,6 +72,8 @@ public class PublicKey implements Serializable {
 
    /**
     * Is this a compressed public key?
+    *
+    * @return compressed
     */
    public boolean isCompressed() {
       return getQ().isCompressed();

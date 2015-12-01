@@ -15,6 +15,9 @@ public class PrivateKeyRing extends PublicKeyRing {
 
    /**
     * Add a private key to the key ring.
+    *
+    * @param key private key
+    * @param network bitcoin network to talk to
     */
    public void addPrivateKey(PrivateKey key, NetworkParameters network) {
       _privateKeys.put(key.getPublicKey(), key);
@@ -23,6 +26,10 @@ public class PrivateKeyRing extends PublicKeyRing {
 
    /**
     * Find a Bitcoin signer by public key
+    *
+    * @param publicKey public key instance
+    *
+    * @return BitcoinSigner to sign transactions with
     */
    public BitcoinSigner findSignerByPublicKey(PublicKey publicKey) {
       return _privateKeys.get(publicKey);
@@ -30,6 +37,8 @@ public class PrivateKeyRing extends PublicKeyRing {
 
    /**
     * Find a KeyExporter by public key
+    *
+    * @return key exporter
     */
    public KeyExporter findKeyExporterByPublicKey(PublicKey publicKey) {
       PrivateKey key = _privateKeys.get(publicKey);
