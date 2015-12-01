@@ -19,7 +19,7 @@
         <junit.version>4.11</junit.version>
         <joda.version>2.9.1</joda.version>
 	    <spring.data.mongodb.version>1.6.2.RELEASE</spring.data.mongodb.version>
-        <bushido.core.version>1.0.0-20151201.194707-1</bushido.core.version>
+        <bushido.core.version>1.0.0-SNAPSHOT</bushido.core.version>
     </properties>
     <dependencies>
         <dependency>
