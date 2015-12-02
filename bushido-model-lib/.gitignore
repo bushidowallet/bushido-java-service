@@ -1,6 +1,5 @@
 target/
-docs/
 generated/
+docs/
 .idea
 *.iml
-*.properties

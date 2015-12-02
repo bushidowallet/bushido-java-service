@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bushidowallet</groupId>
 	<artifactId>bushido-java-service</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A set of web services exposing Bushido API</description>
@@ -12,6 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
+		<module>bushido-model-lib</module>
 		<module>bushido-service-lib</module>
 		<module>bushido-address-watcher</module>
 		<module>bushido-wallet-service</module>
