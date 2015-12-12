@@ -95,7 +95,7 @@
     <!-- Mongo DB -->
 
     <mongo:mongo host="${app.mongo.host}" port="${app.mongo.port}" id="mongo" />
-    <mongo:db-factory username="${app.mongo.username}" password="${app.mongo.password}" dbname="walletapiservice" mongo-ref="mongo" id="mongoDbFactory"/>
+    <mongo:db-factory username="${app.mongo.username}" password="${app.mongo.password}" dbname="${app.mongo.dbname}" mongo-ref="mongo" id="mongoDbFactory"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
