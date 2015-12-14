@@ -75,34 +75,38 @@ public class UserServiceImpl implements UserService {
     public UserLoginResponse login(UserLoginRequest request) {
         final UserLoginResponse operation = new UserLoginResponse();
         final UserDAOImpl.UserInfo info = checkCredentials(request.userIdOrEmail, request.credential);
-        final UserVerification uv = userVerificationDAO.get(info.user.getId());
-        if (uv != null) {
-            if (uv.hasVerification(UserVerification.UserVerificationType.emailVerified.name())) {
-                if (info.valid == true) {
-                    if (info.user.has2FAEnabled == false) {
-                        List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(info.user.username);
-                        List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
-                        for (int i = 0; i < persistedWallets.size(); i++) {
-                            V2WalletDescriptor wallet = persistedWallets.get(i).toBase();
-                            LoginResponse walletRes = walletService.login(wallet, request.credential);
-                            wallets.add(walletRes.getPayload());
+        if (info.user != null) {
+            final UserVerification uv = userVerificationDAO.get(info.user.getId());
+            if (uv != null) {
+                if (uv.hasVerification(UserVerification.UserVerificationType.emailVerified.name())) {
+                    if (info.valid == true) {
+                        if (info.user.has2FAEnabled == false) {
+                            List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(info.user.username);
+                            List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
+                            for (int i = 0; i < persistedWallets.size(); i++) {
+                                V2WalletDescriptor wallet = persistedWallets.get(i).toBase();
+                                LoginResponse walletRes = walletService.login(wallet, request.credential);
+                                wallets.add(walletRes.getPayload());
+                            }
+                            operation.setWallets(wallets);
+                            operation.user = info.user.toBase();
+                        } else {
+                            User u = new User();
+                            u.username = info.user.username;
+                            u.has2FAEnabled = info.user.has2FAEnabled;
+                            operation.user = u;
                         }
-                        operation.setWallets(wallets);
-                        operation.user = info.user.toBase();
                     } else {
-                        User u = new User();
-                        u.username = info.user.username;
-                        u.has2FAEnabled = info.user.has2FAEnabled;
-                        operation.user = u;
+                        operation.addError(new Error(9));
                     }
                 } else {
-                    operation.addError(new Error(9));
+                    operation.addError(new Error(Error.USER_EMAIL_NOT_VERIFIED));
                 }
             } else {
-                operation.addError(new Error(Error.USER_EMAIL_NOT_VERIFIED));
+                operation.addError(new Error(Error.USER_NOT_VERIFIED));
             }
         } else {
-            operation.addError(new Error(Error.USER_NOT_VERIFIED));
+            operation.addError(new Error(Error.USER_NOT_FOUND));
         }
         return operation;
     }

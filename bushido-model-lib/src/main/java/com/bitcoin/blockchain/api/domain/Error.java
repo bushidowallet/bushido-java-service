@@ -41,6 +41,7 @@ public class Error implements Serializable {
     public static int USER_EMAIL_NOT_VERIFIED = 29;
     public static int EMAILS_DONT_MATCH = 30;
     public static int USER_ALREADY_VERIFIED = 31;
+    public static int USER_NOT_FOUND = 32;
 
     public int code;
 
