@@ -161,13 +161,13 @@ public class UserServiceImpl implements UserService {
         final StringBuilder link = new StringBuilder();
         link.append("<a href=");
         link.append(url);
-        link.append("/account.html?env=");
+        link.append("/confirm.html?env=");
         link.append(env);
         link.append("&t=");
         link.append(t.token);
         link.append(">");
         link.append(url);
-        link.append("/account.html?env=");
+        link.append("/confirm.html?env=");
         link.append(env);
         link.append("&t=");
         link.append(t.token);
