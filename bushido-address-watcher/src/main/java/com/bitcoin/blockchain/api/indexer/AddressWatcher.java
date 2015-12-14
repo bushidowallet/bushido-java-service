@@ -1,5 +1,7 @@
 package com.bitcoin.blockchain.api.indexer;
 
+import com.bccapi.bitlib.util.StringUtils;
+import com.bitcoin.blockchain.api.application.Env;
 import com.bitcoin.blockchain.api.application.Environment;
 import com.bitcoin.blockchain.api.Command;
 import com.bitcoin.blockchain.api.domain.*;
@@ -17,6 +19,7 @@ import org.bitcoinj.core.TransactionConfidence;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.script.Script;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -50,11 +53,13 @@ public class AddressWatcher {
 
     private WalletAppKit kit;
 
+    @Value("${app.wallet.dir}")
+    private String walletDir;
+
     @PostConstruct
     public void init() {
         NetworkParameters params = config.getNetworkParams();
-        String home = System.getProperty("user.home");
-        File file = new File(home + "/.");
+        File file = new File(walletDir);
         kit = new WalletAppKit(params, file, wallet.getKey());
         try {
             System.out.println("Blockchain indexer file: " + file.getCanonicalPath());
