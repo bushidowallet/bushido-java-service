@@ -9,7 +9,7 @@
        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
-       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd"
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd"
        default-destroy-method="dispose">
 
     <!-- Application beans -->
@@ -105,9 +105,15 @@
 
     <bean id="users" class="com.bitcoin.blockchain.api.data.Users"/>
 
-    <security:http use-expressions="true" create-session="stateless" authentication-manager-ref="authenticationManager">
-        <security:intercept-url pattern="/client/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <security:http-basic/>
+    <security:http
+        auto-config="true"
+        disable-url-rewriting="false"
+        use-expressions="true"
+        create-session="stateless"
+        authentication-manager-ref="authenticationManager">
+            <security:csrf disabled="true"/>
+            <security:intercept-url pattern="/client/admin/**" access="hasRole('ROLE_ADMIN')"/>
+            <security:http-basic/>
     </security:http>
 
     <bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
