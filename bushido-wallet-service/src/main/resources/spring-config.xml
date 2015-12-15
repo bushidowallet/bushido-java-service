@@ -9,7 +9,7 @@
        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
-       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd"
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd"
        default-destroy-method="dispose">
 
     <!-- Application beans -->
