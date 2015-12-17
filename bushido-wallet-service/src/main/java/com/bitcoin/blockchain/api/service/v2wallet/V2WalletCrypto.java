@@ -15,7 +15,7 @@ public class V2WalletCrypto {
         if (pinEnabled == false) {
             return passphraseHash;
         } else {
-            final DerivedKey symmetricKey = new DerivedKey(pin.toString(), pinSalt.getBytes(), 128);
+            final DerivedKey symmetricKey = new DerivedKey(pin.pin.toString(), pinSalt.getBytes(), 128);
             try {
                 symmetricKey.generate();
                 final SecretKey secretKey = symmetricKey.getKey();
@@ -28,11 +28,11 @@ public class V2WalletCrypto {
         return null;
     }
 
-    public static String encrypt(String passphraseHash, boolean pinEnabled, Number pin, String pinSalt) {
+    public static String encrypt(String passphraseHash, boolean pinEnabled, UserPin pin, String pinSalt) {
         if (pinEnabled == false) {
             return passphraseHash;
         } else {
-            final DerivedKey symmetricKey = new DerivedKey(pin.toString(), pinSalt.getBytes(), 128);
+            final DerivedKey symmetricKey = new DerivedKey(pin.pin.toString(), pinSalt.getBytes(), 128);
             try {
                 symmetricKey.generate();
                 final SecretKey secretKey = symmetricKey.getKey();

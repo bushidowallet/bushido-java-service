@@ -14,6 +14,7 @@ import com.bitcoin.blockchain.api.persistence.TopUpTransactionDAO;
 import com.bitcoin.blockchain.api.persistence.TransactionDAO;
 import com.bitcoin.blockchain.api.persistence.TransactionOutpointDAO;
 import com.bitcoin.blockchain.api.service.transaction.TransactionService;
+import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bitcoin.blockchain.api.util.TransactionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,15 @@ public class V2Wallet implements ApplicationContextAware {
 
     @Autowired
     public ExchangeModel model;
+
+    @Autowired
+    public UserPinRegistry pinRegistry;
+
+    @Value("${app.pin.enabled}")
+    private String pinEnabled;
+
+    @Value("${app.pin.salt}")
+    private String pinSalt;
 
     public void init() {
         keygen.setWallet(getDescriptor(false));
@@ -205,8 +215,10 @@ public class V2Wallet implements ApplicationContextAware {
      * @throws Exception
      */
     public Response spend(List<SpendDescriptor> spendings) throws Exception {
-        V2WalletSetting seed = this.descriptor.getSetting(V2WalletSetting.PASSPHRASE);
-        V2WalletSetting compressed = this.descriptor.getSetting(V2WalletSetting.COMPRESSED_KEYS);
+        final boolean checkPin = Boolean.parseBoolean(pinEnabled);
+        final UserPin pin = pinRegistry.get(this.descriptor.owner);
+        final V2WalletSetting seed = this.descriptor.getSetting(V2WalletSetting.PASSPHRASE);
+        final V2WalletSetting compressed = this.descriptor.getSetting(V2WalletSetting.COMPRESSED_KEYS);
         final Response response = new Response();
         final Map<String, TransactionOutputList> unspents = getUnspent();
         final Balance balance = new Balance(unspents.get(TransactionStatus.CONFIRMED).total, unspents.get(TransactionStatus.PENDING).total);
@@ -215,7 +227,7 @@ public class V2Wallet implements ApplicationContextAware {
         if (balance.confirmed + balance.unconfirmed > 0) {
             //Receive change on 0 account
             final V2Key key = createKey(0);
-            response.setPayload(new TransactionBuilder(unspents, balance, spendings, key, (String) seed.value, (Boolean) compressed.value, fee).build());
+            response.setPayload(new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin, pinSalt), (Boolean) compressed.value, fee).build());
         } else {
             response.addError(new Error(15));
         }
@@ -229,8 +241,10 @@ public class V2Wallet implements ApplicationContextAware {
      * @throws Exception
      */
     public Response spendAllUTXO(String address) throws Exception {
-        V2WalletSetting seed = this.descriptor.getSetting(V2WalletSetting.PASSPHRASE);
-        V2WalletSetting compressed = this.descriptor.getSetting(V2WalletSetting.COMPRESSED_KEYS);
+        final boolean checkPin = Boolean.parseBoolean(pinEnabled);
+        final UserPin pin = pinRegistry.get(this.descriptor.owner);
+        final V2WalletSetting seed = this.descriptor.getSetting(V2WalletSetting.PASSPHRASE);
+        final V2WalletSetting compressed = this.descriptor.getSetting(V2WalletSetting.COMPRESSED_KEYS);
         final Response response = new Response();
         final Map<String, TransactionOutputList> unspents = getUnspent();
         final Balance balance = new Balance(unspents.get(TransactionStatus.CONFIRMED).total, unspents.get(TransactionStatus.PENDING).total);
@@ -243,7 +257,7 @@ public class V2Wallet implements ApplicationContextAware {
             spendings.add(new SpendDescriptor(address, toSpend));
             String tx = null;
             try {
-                tx = new TransactionBuilder(unspents, balance, spendings, key, (String) seed.value, (Boolean) compressed.value, fee).build();
+                tx = new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin, pinSalt), (Boolean) compressed.value, fee).build();
             } catch (StandardTransactionBuilder.InsufficientFundsException exception) {
 
             }

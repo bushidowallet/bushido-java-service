@@ -79,7 +79,7 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
                 } else {
                     try {
                         V2WalletSetting passphrase = wallet.getSetting("passphrase");
-                        passphrase.value = V2WalletCrypto.encrypt(ByteUtil.toHex(new Hash((String) passphrase.value).hash()), checkPin, pin.pin, pinSalt);
+                        passphrase.value = V2WalletCrypto.encrypt(ByteUtil.toHex(new Hash((String) passphrase.value).hash()), checkPin, pin, pinSalt);
                         walletDAO.create(new PersistedV2WalletDescriptor(wallet));
                         List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(wallet.owner);
                         List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
