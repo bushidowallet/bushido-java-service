@@ -49,6 +49,18 @@ public class UserController {
     }
 
     @POST
+    @Path("/pin")
+    @ApiOperation(value="Sets the PIN", notes="Sets the PIN", response=Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok")
+    })
+    @RequestMapping(value = "/api/v2/user/pin", method = RequestMethod.POST)
+    @ResponseBody
+    public Response setPin(@ApiParam(value = "PIN object", required = true) @RequestBody @Valid UserPin pin) {
+        return service.setPin(pin);
+    }
+
+    @POST
     @Path("/auth/code")
     @ApiOperation(value="Authenticate user with 2FA code", notes="Validates user's 2FA code and returns a list of owned wallets", response=UserLoginResponse.class)
     @ApiResponses(value = {

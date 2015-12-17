@@ -43,6 +43,7 @@ public class Error implements Serializable {
     public static int USER_ALREADY_VERIFIED = 31;
     public static int USER_NOT_FOUND = 32;
     public static int PIN_ALREADY_SET = 33;
+    public static int PIN_NOT_SET = 34;
 
     public int code;
 

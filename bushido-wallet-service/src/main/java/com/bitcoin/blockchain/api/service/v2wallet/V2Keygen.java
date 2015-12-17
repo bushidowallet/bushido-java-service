@@ -37,6 +37,7 @@ public class V2Keygen {
     }
 
     public void init() throws Exception {
+        //TODO: this can be encrypted, handle...
         V2WalletSetting pass = wallet.getSetting(V2WalletSetting.PASSPHRASE);
         V2WalletSetting compressed = wallet.getSetting(V2WalletSetting.COMPRESSED_KEYS);
         boolean compressedKeys = (Boolean) compressed.value;

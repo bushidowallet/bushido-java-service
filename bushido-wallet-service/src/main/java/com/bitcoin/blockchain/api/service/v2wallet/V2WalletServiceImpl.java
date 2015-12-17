@@ -9,14 +9,19 @@ import com.bitcoin.blockchain.api.persistence.UserDAO;
 import com.bitcoin.blockchain.api.persistence.UserDAOImpl;
 import com.bitcoin.blockchain.api.persistence.V2WalletDAO;
 import com.bitcoin.blockchain.api.service.transaction.TransactionService;
+import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bitcoin.blockchain.api.util.AccountUtil;
 import com.bushidowallet.core.bitcoin.bip32.Hash;
+import com.bushidowallet.core.crypto.symmetric.aes.AES;
+import com.bushidowallet.core.crypto.symmetric.key.DerivedKey;
 import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +47,15 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
     @Autowired
     public TransactionService transactionService;
 
+    @Autowired
+    public UserPinRegistry pinRegistry;
+
+    @Value("${app.pin.enabled}")
+    private String pinEnabled;
+
+    @Value("${app.pin.salt}")
+    private String pinSalt;
+
     public V2WalletRegistry getWallets() {
         return this.wallets;
     }
@@ -60,24 +74,51 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
         if (walletDAO.hasWallet(wallet.key) == true) {
             operation.addError(new Error(1));
         } else {
-            try {
-                V2WalletSetting passphrase = wallet.getSetting("passphrase");
-                passphrase.value = ByteUtil.toHex(new Hash((String) passphrase.value).hash());
-                walletDAO.create(new PersistedV2WalletDescriptor(wallet));
-                List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(wallet.owner);
-                List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
-                for (int i = 0; i < persistedWallets.size(); i++) {
-                    V2WalletDescriptor userwallet = persistedWallets.get(i).toBase();
-                    V2Wallet w = getWallet(userwallet.key);
-                    wallets.add(w.getDescriptor(true));
+            if (userDAO.hasUser(wallet.owner) == true) {
+                UserPin pin = pinRegistry.get(wallet.owner);
+                boolean checkPin = Boolean.parseBoolean(pinEnabled);
+                if (checkPin == true && pin == null) {
+                    operation.addError(new Error(Error.PIN_NOT_SET));
+                } else {
+                    try {
+                        V2WalletSetting passphrase = wallet.getSetting("passphrase");
+                        passphrase.value = process(ByteUtil.toHex(new Hash((String) passphrase.value).hash()), checkPin, pin.pin, pinSalt);
+                        walletDAO.create(new PersistedV2WalletDescriptor(wallet));
+                        List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(wallet.owner);
+                        List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
+                        for (int i = 0; i < persistedWallets.size(); i++) {
+                            V2WalletDescriptor userwallet = persistedWallets.get(i).toBase();
+                            V2Wallet w = getWallet(userwallet.key);
+                            wallets.add(w.getDescriptor(true));
+                        }
+                        operation.setWallets(wallets);
+                        operation.user = userDAO.get(wallet.owner).toBase();
+                    } catch (Exception e) {
+                        operation.addError(new Error(14));
+                    }
                 }
-                operation.setWallets(wallets);
-                operation.user = userDAO.get(wallet.owner).toBase();
-            } catch (Exception e) {
-                operation.addError(new Error(14));
+            } else {
+                operation.addError(new Error(Error.USER_NOT_FOUND));
             }
         }
         return operation;
+    }
+
+    private String process(String passphraseHash, boolean pinEnabled, Number pin, String pinSalt) {
+        if (pinEnabled == false) {
+            return passphraseHash;
+        } else {
+            final DerivedKey symmetricKey = new DerivedKey(pin.toString(), pinSalt.getBytes(), 128);
+            try {
+                symmetricKey.generate();
+                final SecretKey secretKey = symmetricKey.getKey();
+                final AES cipher = new AES();
+                return cipher.encrypt(passphraseHash, secretKey);
+            } catch (Exception e) {
+                System.out.println("Error while encrypting passphrase hash " + e.toString());
+            }
+        }
+        return null;
     }
 
     public Response addAccount(String key, V2WalletAccount account) {
