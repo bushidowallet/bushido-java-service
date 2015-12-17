@@ -9,6 +9,8 @@ public class RegUser extends User {
 
     public String regCode;
 
+    public String password;
+
     public RegUser(String userName,
                    String password,
                    List<String> roles,
@@ -19,7 +21,8 @@ public class RegUser extends User {
                    String countryCode,
                    String firstName,
                    String lastName) {
-        super(userName, password, roles, organization, email);
+        super(userName, null, roles, organization, email);
+        this.password = password;
         this.regCode = regCode;
         this.phone = phone;
         this.countryCode = countryCode;

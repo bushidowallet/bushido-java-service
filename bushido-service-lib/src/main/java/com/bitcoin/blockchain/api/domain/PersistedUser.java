@@ -19,27 +19,27 @@ public class PersistedUser extends User {
     }
 
     public PersistedUser(String userName,
-                         String password,
+                         String pinHash,
                          List<String> roles,
                          String organization,
                          String email) {
-        super(userName, password, roles, organization, email);
+        super(userName, pinHash, roles, organization, email);
     }
 
     public PersistedUser(String userName,
-                         String password,
+                         String pinHash,
                          List<String> roles,
                          String organization,
                          String email,
                          String phone,
                          String countryCode) {
-        super(userName, password, roles, organization, email);
+        super(userName, pinHash, roles, organization, email);
         this.phone = phone;
         this.countryCode = countryCode;
     }
 
     public PersistedUser(String userName,
-                         String password,
+                         String pinHash,
                          List<String> roles,
                          String organization,
                          String email,
@@ -49,13 +49,13 @@ public class PersistedUser extends User {
                          boolean has2FAEnabled,
                          String firstName,
                          String lastName) {
-        super(userName, password, roles, organization, email, authProviderId, phone, countryCode, has2FAEnabled);
+        super(userName, pinHash, roles, organization, email, authProviderId, phone, countryCode, has2FAEnabled);
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
     public PersistedUser(String userName,
-                         String password,
+                         String pinHash,
                          String passwordHash,
                          String salt,
                          List<String> roles,
@@ -67,12 +67,25 @@ public class PersistedUser extends User {
                          boolean has2FAEnabled,
                          String firstName,
                          String lastName) {
-        super(userName, password, roles, organization, email, passwordHash, salt, authProviderId, phone, countryCode, has2FAEnabled, firstName, lastName);
+        super(userName,
+                pinHash,
+                roles,
+                organization,
+                email,
+                passwordHash,
+                salt,
+                authProviderId,
+                phone,
+                countryCode,
+                has2FAEnabled,
+                firstName,
+                lastName
+        );
     }
 
     public PersistedUser(User u) {
         this(u.username,
-            u.password,
+            u.pinHash,
             u.passwordHash,
             u.salt,
             u.roles,
@@ -93,7 +106,7 @@ public class PersistedUser extends User {
 
     public User toBase() {
         return new User(this.username,
-                this.password,
+                this.pinHash,
                 this.roles,
                 this.organization,
                 this.email,

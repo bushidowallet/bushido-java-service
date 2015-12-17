@@ -1,6 +1,7 @@
 package com.bitcoin.blockchain.api.persistence;
 
 import com.bitcoin.blockchain.api.domain.PersistedUser;
+import com.bitcoin.blockchain.api.domain.UserPin;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public interface UserDAO {
     public PersistedUser getByEmail(String email);
 
     public void updatePassword(PersistedUser user, String password);
+
+    public void setPinHash(String username, String pinHash) throws Exception;
 
     public PersistedUser getById(String id);
 

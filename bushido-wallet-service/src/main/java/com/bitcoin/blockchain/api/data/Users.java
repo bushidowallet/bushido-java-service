@@ -35,8 +35,7 @@ public class Users {
         ArrayList<PersistedUser> users = new ArrayList<PersistedUser>();
         users.add(chainUserObj);
         try {
-            chainUserObj.passwordHash = passwordEncoder.encodePassword(chainUserObj.password, saltSource.getSalt(UserUtil.toUser(chainUserObj)));
-            chainUserObj.password = null;
+            chainUserObj.passwordHash = passwordEncoder.encodePassword(chainPass, saltSource.getSalt(UserUtil.toUser(chainUserObj)));
         } catch (Exception e) {
 
         }
@@ -45,6 +44,6 @@ public class Users {
 
     @PostConstruct
     public void init() {
-        this.chainUserObj = new PersistedUser(chainUser, chainPass, Arrays.asList("ROLE_USER"), "individuals", "fake@mail.com");
+        this.chainUserObj = new PersistedUser(chainUser, null, Arrays.asList("ROLE_USER"), "individuals", "fake@mail.com");
     }
 }

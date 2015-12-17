@@ -11,6 +11,7 @@ import com.bitcoin.blockchain.api.persistence.*;
 import com.bitcoin.blockchain.api.service.v2wallet.V2Wallet;
 import com.bitcoin.blockchain.api.service.v2wallet.V2WalletService;
 import com.bitcoin.blockchain.api.util.UserUtil;
+import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.dao.SaltSource;
@@ -378,7 +379,7 @@ public class UserServiceImpl implements UserService {
                     PersistedUser user = new PersistedUser(username, password, Arrays.asList("ROLE_USER"), organization, email, phone, countryCode);
                     user.firstName = firstName;
                     user.lastName = lastName;
-                    createPasswordHash(user);
+                    createPasswordHash(user, password);
                     com.authy.api.User authyUser = client.getUsers().createUser(user.email, user.phone, user.countryCode);
                     user.authProviderId = authyUser.getId();
                     userDAO.create(user);
@@ -401,6 +402,11 @@ public class UserServiceImpl implements UserService {
         if (userDAO.hasUser(pin.username) == false) {
             if (pinRegistry.isRegistered(pin) == false) {
                 pinRegistry.add(pin);
+                try {
+                    userDAO.setPinHash(pin.username, createPinHash(pin));
+                } catch (Exception e) {
+
+                }
             } else {
                 op.addError(new Error(Error.PIN_ALREADY_SET));
             }
@@ -410,17 +416,21 @@ public class UserServiceImpl implements UserService {
         return op;
     }
 
+    private String createPinHash(UserPin pin) throws Exception {
+        return ByteUtil.toHex(new com.bushidowallet.core.bitcoin.bip32.Hash(pin.pin.toString()).hash());
+    }
+
     /**
      * REST
      *
      * @param user
      * @return
      */
-    public Response create(User user) {
+    public Response create(User user, String password) {
         Response op = new Response();
         if (userDAO.hasUser(user.username) == false) {
             if (userDAO.hasUserWithEmail(user.email) == false) {
-                createPasswordHash(user);
+                createPasswordHash(user, password);
                 user.roles = Arrays.asList("ROLE_USER");
                 user.has2FAEnabled = false;
                 PersistedUser u = new PersistedUser(user);
@@ -451,8 +461,7 @@ public class UserServiceImpl implements UserService {
         userDAO.delete(new PersistedUser(user));
     }
 
-    private void createPasswordHash(User user) {
-        user.passwordHash = passwordEncoder.encodePassword(user.password, saltSource.getSalt(UserUtil.toUser(user)));
-        user.password = null;
+    private void createPasswordHash(User user, String password) {
+        user.passwordHash = passwordEncoder.encodePassword(password, saltSource.getSalt(UserUtil.toUser(user)));
     }
 }

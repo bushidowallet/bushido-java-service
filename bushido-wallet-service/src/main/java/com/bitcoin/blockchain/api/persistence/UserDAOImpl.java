@@ -38,7 +38,6 @@ public class UserDAOImpl implements UserDAO {
         final Query query = new Query(Criteria.where("id").is(user.getId()));
         final Update update = new Update();
         update.set("roles", user.roles);
-        update.set("password", user.password);
         update.set("username", user.username);
         this.mongoOps.upsert(query, update, PersistedUser.class, USER_COLLECTION);
     }
@@ -80,18 +79,22 @@ public class UserDAOImpl implements UserDAO {
         this.mongoOps.upsert(query, update, PersistedUser.class, USER_COLLECTION);
     }
 
+    public void setPinHash(String username, String pinHash) throws Exception {
+        final PersistedUser u = get(username);
+        if (u != null) {
+            final Query query = new Query(Criteria.where("id").is(u.getId()));
+            final Update update = new Update();
+            update.set("pinHash", pinHash);
+            this.mongoOps.upsert(query, update, PersistedUser.class, USER_COLLECTION);
+        } else {
+            throw new Exception("Could not find user with username: " + username);
+        }
+    }
+
     public UserInfo isValid(String userIdOrEmail, String password) {
         PersistedUser u = getByUserIdOrEmail(userIdOrEmail);
         if (u != null) {
-            if (u.password != null && u.password.length() > 0) {
-                if (u.password.equals(password)) {
-                    return new UserInfo(true, u);
-                }
-            } else if (u.passwordHash != null && u.passwordHash.length() > 0) {
-                return new UserInfo(passwordEncoder.isPasswordValid(u.passwordHash, password, saltSource.getSalt(UserUtil.toUser(u))), u);
-            } else {
-                //no password and no hash?
-            }
+            return new UserInfo(passwordEncoder.isPasswordValid(u.passwordHash, password, saltSource.getSalt(UserUtil.toUser(u))), u);
         }
         return new UserInfo(false, u);
     }

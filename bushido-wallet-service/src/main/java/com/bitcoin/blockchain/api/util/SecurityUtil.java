@@ -24,8 +24,8 @@ public class SecurityUtil {
     }
 
     public static void process(User user) {
-        user.password = null;
         user.salt = null;
         user.passwordHash = null;
+        user.pinHash = null;
     }
 }

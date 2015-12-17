@@ -13,8 +13,7 @@ public class User implements Serializable {
 
     public String username;
 
-    //TODO: Deprecate
-    public String password;
+    public String pinHash;
 
     public String passwordHash;
 
@@ -40,25 +39,25 @@ public class User implements Serializable {
 
     }
 
-    public User(String userName, String password, List<String> roles, String organization) {
-        this(userName, password);
+    public User(String userName, String pinHash, List<String> roles, String organization) {
+        this(userName, pinHash);
         this.roles = roles;
         this.organization = organization;
     }
 
     public User(String userName,
-                String password,
+                String pinHash,
                 List<String> roles,
                 String organization,
                 String email) {
-        this(userName, password);
+        this(userName, pinHash);
         this.roles = roles;
         this.organization = organization;
         this.email = email;
     }
 
     public User(String userName,
-                String password,
+                String pinHash,
                 List<String> roles,
                 String organization,
                 String email,
@@ -66,7 +65,7 @@ public class User implements Serializable {
                 String phone,
                 String countryCode,
                 boolean has2FAEnabled) {
-        this(userName, password);
+        this(userName, pinHash);
         this.roles = roles;
         this.organization = organization;
         this.email = email;
@@ -77,7 +76,7 @@ public class User implements Serializable {
     }
 
     public User(String userName,
-                String password,
+                String pinHash,
                 List<String> roles,
                 String organization,
                 String email,
@@ -89,7 +88,7 @@ public class User implements Serializable {
                 boolean has2FAEnabled,
                 String firstName,
                 String lastName) {
-        this(userName, password, roles, organization, email, authProviderId, phone, countryCode, has2FAEnabled);
+        this(userName, pinHash, roles, organization, email, authProviderId, phone, countryCode, has2FAEnabled);
         this.passwordHash = passwordHash;
         this.salt = salt;
         this.firstName = firstName;
@@ -97,7 +96,7 @@ public class User implements Serializable {
     }
 
     public User(String userName,
-                String password,
+                String pinHash,
                 List<String> roles,
                 String organization,
                 String passwordHash,
@@ -106,7 +105,7 @@ public class User implements Serializable {
                 String phone,
                 String countryCode,
                 boolean has2FAEnabled) {
-        this(userName, password, roles, organization);
+        this(userName, pinHash, roles, organization);
         this.passwordHash = passwordHash;
         this.salt = salt;
         this.authProviderId = authProviderId;
@@ -115,8 +114,8 @@ public class User implements Serializable {
         this.has2FAEnabled = has2FAEnabled;
     }
 
-    public User(String username, String password) {
+    public User(String username, String pinHash) {
         this.username = username;
-        this.password = password;
+        this.pinHash = pinHash;
     }
 }

@@ -49,18 +49,6 @@ public class UserController {
     }
 
     @POST
-    @Path("/pin")
-    @ApiOperation(value="Sets the PIN", notes="Sets the PIN", response=Response.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Ok")
-    })
-    @RequestMapping(value = "/api/v2/user/pin", method = RequestMethod.POST)
-    @ResponseBody
-    public Response setPin(@ApiParam(value = "PIN object", required = true) @RequestBody @Valid UserPin pin) {
-        return service.setPin(pin);
-    }
-
-    @POST
     @Path("/auth/code")
     @ApiOperation(value="Authenticate user with 2FA code", notes="Validates user's 2FA code and returns a list of owned wallets", response=UserLoginResponse.class)
     @ApiResponses(value = {
@@ -171,20 +159,6 @@ public class UserController {
     @RequestMapping(value = "/api/v2/user/auth/code/token", method = RequestMethod.POST)
     public Response requestToken(@ApiParam(value = "Token request descriptor", required = true) @RequestBody @Valid Token2FARequest request) {
         return service.requestToken(request);
-    }
-
-    @POST
-    @Path("/")
-    @ApiOperation(value="Create a user", notes="Creates a user object", response=Response.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 401, message = "Invalid Credentials")
-            })
-    @RequestMapping(value = "/api/v2/user", method = RequestMethod.POST)
-    @Secured("ROLE_ADMIN")
-    @ResponseBody
-    public Response create(@ApiParam(value = "User object", required = true) @RequestBody @Valid User user) {
-        return service.create(user);
     }
 
     @GET
