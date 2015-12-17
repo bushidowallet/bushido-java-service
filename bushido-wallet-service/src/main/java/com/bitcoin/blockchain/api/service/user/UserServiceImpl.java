@@ -393,6 +393,12 @@ public class UserServiceImpl implements UserService {
         return op;
     }
 
+    public Response createPin(UserPin pin) {
+        final Response op = new Response();
+        //TODO: implement me
+        return op;
+    }
+
     /**
      * REST
      *

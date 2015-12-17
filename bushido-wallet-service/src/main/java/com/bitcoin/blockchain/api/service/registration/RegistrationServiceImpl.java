@@ -55,6 +55,16 @@ public class RegistrationServiceImpl implements RegistrationService {
         return reg;
     }
 
+    public Response setPin(RegUserPin pin) {
+        Response reg = validateTrialCode(pin.regCode);
+        if (reg.getPayload().equals(true)) {
+            return userService.createPin(pin);
+        } else {
+            reg.addError(new Error(18));
+        }
+        return reg;
+    }
+
     public Response createWallet(RegV2WalletDescriptor wallet) {
         Response reg = validateTrialCode(wallet.regCode);
         Response r = new Response();

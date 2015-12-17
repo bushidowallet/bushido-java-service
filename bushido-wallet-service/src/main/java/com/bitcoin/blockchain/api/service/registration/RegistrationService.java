@@ -11,6 +11,8 @@ public interface RegistrationService {
 
     Response createUser(RegUser user);
 
+    Response setPin(RegUserPin pin);
+
     Response createWallet(RegV2WalletDescriptor wallet);
 
     Response validateTrialCode(String trialCode);

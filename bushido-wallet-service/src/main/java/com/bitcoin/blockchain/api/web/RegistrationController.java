@@ -48,6 +48,18 @@ public class RegistrationController {
     }
 
     @POST
+    @Path("/pin")
+    @ApiOperation(value="Handle client registration, creates a PIN", notes="Handles client registration, creates a PIN", response=Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok")
+    })
+    @RequestMapping(value = "/api/v2/registration/pin", method = RequestMethod.POST)
+    @ResponseBody
+    public Response setPin(@ApiParam(value = "PIN object", required = true) @RequestBody @Valid RegUserPin pin) {
+        return service.setPin(pin);
+    }
+
+    @POST
     @Path("/wallet")
     @ApiOperation(value="Handle client registration, creates a wallet", notes="Handles client registration, creates a wallet", response=Response.class)
     @ApiResponses(value = {
