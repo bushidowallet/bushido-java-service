@@ -2,6 +2,7 @@ package com.bitcoin.blockchain.api.persistence;
 
 import com.bitcoin.blockchain.api.domain.PersistedUser;
 import com.bitcoin.blockchain.api.util.UserUtil;
+import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -92,11 +93,32 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public UserInfo isValid(String userIdOrEmail, String password) {
-        PersistedUser u = getByUserIdOrEmail(userIdOrEmail);
+        final PersistedUser u = getByUserIdOrEmail(userIdOrEmail);
         if (u != null) {
             return new UserInfo(passwordEncoder.isPasswordValid(u.passwordHash, password, saltSource.getSalt(UserUtil.toUser(u))), u);
         }
         return new UserInfo(false, u);
+    }
+
+    public UserInfo isValid(String userIdOrEmail, String password, String pin) {
+        final PersistedUser u = getByUserIdOrEmail(userIdOrEmail);
+        if (u != null) {
+            final boolean passwordValid = passwordEncoder.isPasswordValid(u.passwordHash, password, saltSource.getSalt(UserUtil.toUser(u)));
+            String generatedPinHash = "";
+            try {
+                generatedPinHash = createPinHash(pin);
+            } catch (Exception e) {
+
+            }
+            final boolean pinValid = generatedPinHash.equals(u.pinHash);
+            final boolean uValid = passwordValid && pinValid == true;
+            return new UserInfo(uValid, u);
+        }
+        return new UserInfo(false, u);
+    }
+
+    private String createPinHash(String pin) throws Exception {
+        return ByteUtil.toHex(new com.bushidowallet.core.bitcoin.bip32.Hash(pin).hash());
     }
 
     public class UserInfo {

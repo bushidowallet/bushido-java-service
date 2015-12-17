@@ -71,6 +71,12 @@ public class UserServiceImpl implements UserService {
     @Value("${app.env}")
     private String env;
 
+    @Value("${app.pin.enabled}")
+    private String pinEnabled;
+
+    @Value("${app.pin.salt}")
+    private String pinSalt;
+
     @PostConstruct
     public void init() {
         client = new AuthyApiClient(authyapikey);
@@ -78,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     public UserLoginResponse login(UserLoginRequest request) {
         final UserLoginResponse operation = new UserLoginResponse();
-        final UserDAOImpl.UserInfo info = checkCredentials(request.userIdOrEmail, request.credential);
+        final UserDAOImpl.UserInfo info = checkCredentials(request.userIdOrEmail, request.credentials);
         if (info.user != null) {
             final UserVerification uv = userVerificationDAO.get(info.user.getId());
             if (uv != null) {
@@ -89,7 +95,7 @@ public class UserServiceImpl implements UserService {
                             List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
                             for (int i = 0; i < persistedWallets.size(); i++) {
                                 V2WalletDescriptor wallet = persistedWallets.get(i).toBase();
-                                LoginResponse walletRes = walletService.login(wallet, request.credential);
+                                LoginResponse walletRes = walletService.login(wallet, request.credentials.get(0));
                                 wallets.add(walletRes.getPayload());
                             }
                             operation.setWallets(wallets);
@@ -118,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public UserLoginResponse login2FA(UserLoginRequest request) {
         final UserLoginResponse operation = new UserLoginResponse();
         final PersistedUser user = userDAO.getByUserIdOrEmail(request.userIdOrEmail);
-        if (checkCode(user.authProviderId, request.credential) == true) {
+        if (checkCode(user.authProviderId, request.credentials.get(0)) == true) {
             List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(user.username);
             List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
             for (int i = 0; i < persistedWallets.size(); i++) {
@@ -358,8 +364,13 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
-    private UserDAOImpl.UserInfo checkCredentials(String userIdOrEmail, String password) {
-        return userDAO.isValid(userIdOrEmail, password);
+    private UserDAOImpl.UserInfo checkCredentials(String userIdOrEmail, List<String> credentials) {
+        final boolean checkPin = Boolean.parseBoolean(pinEnabled);
+        if (checkPin == false) {
+            return userDAO.isValid(userIdOrEmail, credentials.get(0));
+        } else {
+            return userDAO.isValid(userIdOrEmail, credentials.get(0), credentials.get(1));
+        }
     }
 
     /**

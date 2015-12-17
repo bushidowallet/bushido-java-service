@@ -1,6 +1,7 @@
 package com.bitcoin.blockchain.api.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Jesion on 2015-06-26.
@@ -9,14 +10,14 @@ public class UserLoginRequest implements Serializable {
 
     public String userIdOrEmail;
 
-    public String credential;
+    public List<String> credentials;
 
     public UserLoginRequest()  {
 
     }
 
-    public UserLoginRequest(String userIdOrEmail, String credential) {
+    public UserLoginRequest(String userIdOrEmail, List<String> credentials) {
         this.userIdOrEmail = userIdOrEmail;
-        this.credential = credential;
+        this.credentials = credentials;
     }
 }

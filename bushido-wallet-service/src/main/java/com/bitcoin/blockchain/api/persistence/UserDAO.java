@@ -1,7 +1,6 @@
 package com.bitcoin.blockchain.api.persistence;
 
 import com.bitcoin.blockchain.api.domain.PersistedUser;
-import com.bitcoin.blockchain.api.domain.UserPin;
 
 import java.util.List;
 
@@ -17,6 +16,8 @@ public interface UserDAO {
     public void delete(PersistedUser user);
 
     public UserDAOImpl.UserInfo isValid(String userIdOrEmail, String password);
+
+    public UserDAOImpl.UserInfo isValid(String userIdOrEmail, String password, String pin);
 
     public PersistedUser getByUserIdOrEmail(String userIdOrEmail);
 
