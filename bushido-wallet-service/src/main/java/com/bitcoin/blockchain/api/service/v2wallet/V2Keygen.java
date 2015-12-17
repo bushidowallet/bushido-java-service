@@ -1,10 +1,8 @@
 package com.bitcoin.blockchain.api.service.v2wallet;
 
-import com.bitcoin.blockchain.api.domain.PersistedV2Key;
-import com.bitcoin.blockchain.api.domain.V2Key;
-import com.bitcoin.blockchain.api.domain.V2WalletDescriptor;
-import com.bitcoin.blockchain.api.domain.V2WalletSetting;
+import com.bitcoin.blockchain.api.domain.*;
 import com.bitcoin.blockchain.api.persistence.V2WalletKeyDAO;
+import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bushidowallet.core.bitcoin.bip32.Derivation;
 import com.bushidowallet.core.bitcoin.bip32.ExtendedKey;
 import com.bushidowallet.core.bitcoin.bip32.Hash;
@@ -12,6 +10,7 @@ import com.bushidowallet.core.bitcoin.bip32.Seed;
 import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Security;
 import java.util.List;
@@ -28,6 +27,15 @@ public class V2Keygen {
 
     private Derivation derivation;
 
+    @Value("${app.pin.enabled}")
+    private String pinEnabled;
+
+    @Value("${app.pin.salt}")
+    private String pinSalt;
+
+    @Autowired
+    public UserPinRegistry pinRegistry;
+
     public V2Keygen() {
         Security.addProvider(new BouncyCastleProvider());
     }
@@ -37,12 +45,14 @@ public class V2Keygen {
     }
 
     public void init() throws Exception {
-        //TODO: this can be encrypted, handle...
-        V2WalletSetting pass = wallet.getSetting(V2WalletSetting.PASSPHRASE);
-        V2WalletSetting compressed = wallet.getSetting(V2WalletSetting.COMPRESSED_KEYS);
-        boolean compressedKeys = (Boolean) compressed.value;
-        byte[] keyHash = new Hash(ByteUtil.fromHex((String) pass.value)).getHmacSHA512(Seed.BITCOIN_SEED);
-        ExtendedKey root = new ExtendedKey(keyHash, compressedKeys);
+        final boolean checkPin = Boolean.parseBoolean(pinEnabled);
+        final UserPin pin = pinRegistry.get(wallet.owner);
+        final V2WalletSetting pass = wallet.getSetting(V2WalletSetting.PASSPHRASE);
+        final String passphraseHash = V2WalletCrypto.decrypt((String) pass.value, checkPin, pin, pinSalt);
+        final V2WalletSetting compressed = wallet.getSetting(V2WalletSetting.COMPRESSED_KEYS);
+        final boolean compressedKeys = (Boolean) compressed.value;
+        final byte[] keyHash = new Hash(ByteUtil.fromHex(passphraseHash)).getHmacSHA512(Seed.BITCOIN_SEED);
+        final ExtendedKey root = new ExtendedKey(keyHash, compressedKeys);
         derivation = new Derivation(root);
     }
 
