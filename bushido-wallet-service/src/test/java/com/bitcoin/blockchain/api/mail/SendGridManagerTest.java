@@ -15,7 +15,6 @@ public class SendGridManagerTest {
 
         SendGridManager manager = new SendGridManager();
         manager.send("robert@riaforge.co.uk", "yesionuk@gmail.com", "Subject here", "Content here");
-
         Assert.assertTrue(true);
     }
 }
