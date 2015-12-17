@@ -43,6 +43,10 @@
     <bean id="v2Wallet" class="com.bitcoin.blockchain.api.service.v2wallet.V2Wallet" scope="prototype"/>
     <bean id="v2Keygen" class="com.bitcoin.blockchain.api.service.v2wallet.V2Keygen" scope="prototype"/>
 
+    <!-- User -->
+
+    <bean id="pinRegistry" class="com.bitcoin.blockchain.api.service.user.UserPinRegistry"/>
+
     <!-- Rabbit Start -->
 
     <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">

@@ -58,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public Response setPin(RegUserPin pin) {
         Response reg = validateTrialCode(pin.regCode);
         if (reg.getPayload().equals(true)) {
-            return userService.createPin(pin);
+            return userService.setPin(pin);
         } else {
             reg.addError(new Error(18));
         }

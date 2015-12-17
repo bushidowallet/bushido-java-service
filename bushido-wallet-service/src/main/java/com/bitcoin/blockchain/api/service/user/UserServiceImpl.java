@@ -53,6 +53,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public SendGridManager sendGrid;
 
+    @Autowired
+    public UserPinRegistry pinRegistry;
+
     private AuthyApiClient client;
 
     @Value("${app.authy.apikey}")
@@ -393,9 +396,17 @@ public class UserServiceImpl implements UserService {
         return op;
     }
 
-    public Response createPin(UserPin pin) {
+    public Response setPin(UserPin pin) {
         final Response op = new Response();
-        //TODO: implement me
+        if (userDAO.hasUser(pin.username) == false) {
+            if (pinRegistry.isRegistered(pin) == false) {
+                pinRegistry.add(pin);
+            } else {
+                op.addError(new Error(Error.PIN_ALREADY_SET));
+            }
+        } else {
+            op.addError(new Error(Error.USER_NOT_FOUND));
+        }
         return op;
     }
 

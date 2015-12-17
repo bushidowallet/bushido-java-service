@@ -17,7 +17,7 @@ public interface UserService {
 
     public Response create(User user);
 
-    public Response createPin(UserPin pin);
+    public Response setPin(UserPin pin);
 
     public Response getAll();
 
