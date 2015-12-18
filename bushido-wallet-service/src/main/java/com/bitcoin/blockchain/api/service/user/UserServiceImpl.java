@@ -400,6 +400,7 @@ public class UserServiceImpl implements UserService {
                     userDAO.create(user);
                     op.setPayload(true);
                     sendAccountVerificationMessage(user, null);
+                    notifyOperator(user);
                 } else {
                     op.addError(new Error(11));
                 }
@@ -410,6 +411,11 @@ public class UserServiceImpl implements UserService {
             op.addError(new Error(7));
         }
         return op;
+    }
+
+    private void notifyOperator(PersistedUser user) {
+        String html = "Hello!<br/><br/>New Bushido User registered: <br/><br/>" + user.toString();
+        sendGrid.send(email, email, "New Bushido User", html);
     }
 
     public Response setPin(UserPin pin) {

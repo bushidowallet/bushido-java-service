@@ -2,14 +2,14 @@
   "apiVersion" : "v2",
   "swaggerVersion" : "1.2",
   "apis" : [ {
-    "path" : "/wallet.{format}",
-    "description" : "Operations on wallets"
-  }, {
     "path" : "/tx.{format}",
     "description" : "Operations on transactions"
   }, {
     "path" : "/organization.{format}",
     "description" : "Operations on organizations"
+  }, {
+    "path" : "/wallet.{format}",
+    "description" : "Operations on wallets"
   }, {
     "path" : "/registration.{format}",
     "description" : "Registration management"

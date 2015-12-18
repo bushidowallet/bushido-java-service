@@ -136,55 +136,165 @@
       } ]
     } ]
   }, {
-    "path" : "/wallet/auth",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Login to wallet",
-      "notes" : "Checks whether user has permissions to access wallet",
-      "type" : "LoginResponse",
-      "nickname" : "login",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Wallet descriptor",
-        "required" : true,
-        "type" : "LoginRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/topup/init",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Initialize top-up process",
-      "notes" : "Initializes top-up process",
-      "type" : "Response",
-      "nickname" : "initTopUp",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Wallet descriptor",
-        "required" : true,
-        "type" : "V2WalletDescriptor",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/transactions",
+    "path" : "/wallet/transactions/outgoing",
     "operations" : [ {
       "method" : "GET",
-      "summary" : "Get wallet transactions",
-      "notes" : "Gets transactions with current statuses",
+      "summary" : "Get outgoing wallet transactions",
+      "notes" : "Gets outgoing transactions (spending outputs) with current statuses",
       "type" : "List",
-      "nickname" : "getTransactions",
+      "nickname" : "getOutgoingTransactions",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/transactions/keys",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Get transactions keys",
+      "notes" : "Gets public keys used on transactions",
+      "type" : "List",
+      "nickname" : "getTransactionsKeys",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "account",
+        "description" : "Account",
+        "required" : true,
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/transactions/outgoing/dt",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Get outgoing wallet transactions for DataTables",
+      "notes" : "Gets outgoing transactions (spending outputs) with current statuses in a format that is required for DataTables component",
+      "type" : "TransactionsDTDataProvider",
+      "nickname" : "getOutgoingTransactionsDt",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/{key}/spend/all/{address}/generate",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Generate Tx spending all UTXOs",
+      "notes" : "Generates Tx spending all UTXOs",
+      "type" : "Response",
+      "nickname" : "spendAllUTXOGenerate",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key (identifier)",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      }, {
+        "name" : "address",
+        "description" : "Receiving address",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "path",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      }, {
+        "code" : 400,
+        "message" : "Bad request"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/transactions/unspentoutputs",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Get wallet's unspent outputs",
+      "notes" : "Gets wallet's unspent outputs.",
+      "type" : "Response",
+      "nickname" : "getUnspentOutputs",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/transactions/keys/dt",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Get transactions keys for DataTables",
+      "notes" : "Gets public keys used on transactions in a format that is required for DataTables component",
+      "type" : "TransactionsKeysDTDataProvider",
+      "nickname" : "getTransactionsKeysDt",
+      "parameters" : [ {
+        "name" : "key",
+        "description" : "Wallet key",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : false
+      }, {
+        "name" : "account",
+        "description" : "Account",
+        "required" : true,
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/transactions/dt",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Get wallet transactions for DataTables",
+      "notes" : "Gets transactions with current statuses in a format that is required for DataTables component",
+      "type" : "TransactionsDTDataProvider",
+      "nickname" : "getTransactionsDt",
       "parameters" : [ {
         "name" : "key",
         "description" : "Wallet key",
@@ -238,115 +348,13 @@
       } ]
     } ]
   }, {
-    "path" : "/wallet/transactions/outgoing/dt",
+    "path" : "/wallet/transactions",
     "operations" : [ {
       "method" : "GET",
-      "summary" : "Get outgoing wallet transactions for DataTables",
-      "notes" : "Gets outgoing transactions (spending outputs) with current statuses in a format that is required for DataTables component",
-      "type" : "TransactionsDTDataProvider",
-      "nickname" : "getOutgoingTransactionsDt",
-      "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "query",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/transactions/dt",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "Get wallet transactions for DataTables",
-      "notes" : "Gets transactions with current statuses in a format that is required for DataTables component",
-      "type" : "TransactionsDTDataProvider",
-      "nickname" : "getTransactionsDt",
-      "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "query",
-        "allowMultiple" : false
-      }, {
-        "name" : "account",
-        "description" : "Account",
-        "required" : true,
-        "type" : "integer",
-        "format" : "int32",
-        "paramType" : "query",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/{key}/spend/all/{address}/generate",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "Generate Tx spending all UTXOs",
-      "notes" : "Generates Tx spending all UTXOs",
-      "type" : "Response",
-      "nickname" : "spendAllUTXOGenerate",
-      "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key (identifier)",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      }, {
-        "name" : "address",
-        "description" : "Receiving address",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "path",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      }, {
-        "code" : 400,
-        "message" : "Bad request"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/transactions/outgoing",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "Get outgoing wallet transactions",
-      "notes" : "Gets outgoing transactions (spending outputs) with current statuses",
+      "summary" : "Get wallet transactions",
+      "notes" : "Gets transactions with current statuses",
       "type" : "List",
-      "nickname" : "getOutgoingTransactions",
-      "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "query",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/transactions/keys",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "Get transactions keys",
-      "notes" : "Gets public keys used on transactions",
-      "type" : "List",
-      "nickname" : "getTransactionsKeys",
+      "nickname" : "getTransactions",
       "parameters" : [ {
         "name" : "key",
         "description" : "Wallet key",
@@ -369,48 +377,40 @@
       } ]
     } ]
   }, {
-    "path" : "/wallet/transactions/keys/dt",
+    "path" : "/wallet/topup/init",
     "operations" : [ {
-      "method" : "GET",
-      "summary" : "Get transactions keys for DataTables",
-      "notes" : "Gets public keys used on transactions in a format that is required for DataTables component",
-      "type" : "TransactionsKeysDTDataProvider",
-      "nickname" : "getTransactionsKeysDt",
-      "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key",
-        "required" : true,
-        "type" : "string",
-        "paramType" : "query",
-        "allowMultiple" : false
-      }, {
-        "name" : "account",
-        "description" : "Account",
-        "required" : true,
-        "type" : "integer",
-        "format" : "int32",
-        "paramType" : "query",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/wallet/transactions/unspentoutputs",
-    "operations" : [ {
-      "method" : "GET",
-      "summary" : "Get wallet's unspent outputs",
-      "notes" : "Gets wallet's unspent outputs.",
+      "method" : "POST",
+      "summary" : "Initialize top-up process",
+      "notes" : "Initializes top-up process",
       "type" : "Response",
-      "nickname" : "getUnspentOutputs",
+      "nickname" : "initTopUp",
       "parameters" : [ {
-        "name" : "key",
-        "description" : "Wallet key",
+        "name" : "body",
+        "description" : "Wallet descriptor",
         "required" : true,
-        "type" : "string",
-        "paramType" : "query",
+        "type" : "V2WalletDescriptor",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/wallet/auth",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Login to wallet",
+      "notes" : "Checks whether user has permissions to access wallet",
+      "type" : "LoginResponse",
+      "nickname" : "login",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Wallet descriptor",
+        "required" : true,
+        "type" : "LoginRequest",
+        "paramType" : "body",
         "allowMultiple" : false
       } ],
       "responseMessages" : [ {

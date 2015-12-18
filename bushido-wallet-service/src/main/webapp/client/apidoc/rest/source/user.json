@@ -41,36 +41,141 @@
         "code" : 401,
         "message" : "Invalid Credentials"
       } ]
-    }, {
+    } ]
+  }, {
+    "path" : "/user/password/reset/code",
+    "operations" : [ {
       "method" : "POST",
-      "summary" : "Create a user",
-      "notes" : "Creates a user object",
+      "summary" : "Verify user token's 2FA code",
+      "notes" : "Verify user's token 2FA code",
       "type" : "Response",
-      "nickname" : "create",
+      "nickname" : "verifyResetPasswordCode",
       "parameters" : [ {
         "name" : "body",
-        "description" : "User object",
+        "description" : "Tokens 2FA descriptor",
         "required" : true,
-        "type" : "User",
+        "type" : "SecondFactorTokenRequest",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
       "responseMessages" : [ {
         "code" : 200,
         "message" : "Ok"
-      }, {
-        "code" : 401,
-        "message" : "Invalid Credentials"
       } ]
     } ]
   }, {
-    "path" : "/user/auth",
+    "path" : "/user/password/reset/init",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "Authenticate user",
-      "notes" : "Authenticates the user and returns a list of owned wallets",
+      "summary" : "Begin password reset operation",
+      "notes" : "Begins password reset operation",
+      "type" : "Response",
+      "nickname" : "resetPasswordInit",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Password reset request init descriptor",
+        "required" : true,
+        "type" : "TokenRequest",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/user/account/verify/init",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Request a verification link",
+      "notes" : "Requests a verification link",
+      "type" : "Response",
+      "nickname" : "initAccountVerify",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Account request descriptor",
+        "required" : true,
+        "type" : "AccountRequest",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/user/password/reset/token",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Send 2FA code to verification token's user phone via either 2FA application or SMS",
+      "notes" : "Send 2FA code to verification token's user phone via either 2FA application or SMS",
+      "type" : "Response",
+      "nickname" : "requestVerificationToken2FACode",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Token request descriptor",
+        "required" : true,
+        "type" : "SecondFactorCodeDeliveryRequest",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/user/password/reset/confirm",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Confirm password reset",
+      "notes" : "Confirms password reset",
+      "type" : "Response",
+      "nickname" : "confirmResetPassword",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Password reset confirmation descriptor",
+        "required" : true,
+        "type" : "PasswordResetConfirmationRequest",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/user/auth/code/token",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Send auth token to user's phone phone via either 2FA application or SMS",
+      "notes" : "Sends auth token to user's phone via either 2FA application or SMS",
+      "type" : "Response",
+      "nickname" : "requestToken",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Token request descriptor",
+        "required" : true,
+        "type" : "Token2FARequest",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/user/auth/code",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Authenticate user with 2FA code",
+      "notes" : "Validates user's 2FA code and returns a list of owned wallets",
       "type" : "UserLoginResponse",
-      "nickname" : "login",
+      "nickname" : "authCode",
       "parameters" : [ {
         "name" : "body",
         "description" : "Login descriptor",
@@ -106,48 +211,6 @@
       } ]
     } ]
   }, {
-    "path" : "/user/auth/code",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Authenticate user with 2FA code",
-      "notes" : "Validates user's 2FA code and returns a list of owned wallets",
-      "type" : "UserLoginResponse",
-      "nickname" : "authCode",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Login descriptor",
-        "required" : true,
-        "type" : "UserLoginRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/user/auth/code/token",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Send auth token to user's phone phone via either 2FA application or SMS",
-      "notes" : "Sends auth token to user's phone via either 2FA application or SMS",
-      "type" : "Response",
-      "nickname" : "requestToken",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Token request descriptor",
-        "required" : true,
-        "type" : "Token2FARequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
     "path" : "/user/password/reset",
     "operations" : [ {
       "method" : "POST",
@@ -169,102 +232,18 @@
       } ]
     } ]
   }, {
-    "path" : "/user/password/reset/confirm",
+    "path" : "/user/auth",
     "operations" : [ {
       "method" : "POST",
-      "summary" : "Confirm password reset",
-      "notes" : "Confirms password reset",
-      "type" : "Response",
-      "nickname" : "confirmResetPassword",
+      "summary" : "Authenticate user",
+      "notes" : "Authenticates the user and returns a list of owned wallets",
+      "type" : "UserLoginResponse",
+      "nickname" : "login",
       "parameters" : [ {
         "name" : "body",
-        "description" : "Password reset confirmation descriptor",
+        "description" : "Login descriptor",
         "required" : true,
-        "type" : "PasswordResetConfirmationRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/user/account/verify/init",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Request a verification link",
-      "notes" : "Requests a verification link",
-      "type" : "Response",
-      "nickname" : "initAccountVerify",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Account request descriptor",
-        "required" : true,
-        "type" : "AccountRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/user/password/reset/code",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Verify user token's 2FA code",
-      "notes" : "Verify user's token 2FA code",
-      "type" : "Response",
-      "nickname" : "verifyResetPasswordCode",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Tokens 2FA descriptor",
-        "required" : true,
-        "type" : "SecondFactorTokenRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/user/password/reset/token",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Send 2FA code to verification token's user phone via either 2FA application or SMS",
-      "notes" : "Send 2FA code to verification token's user phone via either 2FA application or SMS",
-      "type" : "Response",
-      "nickname" : "requestVerificationToken2FACode",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Token request descriptor",
-        "required" : true,
-        "type" : "SecondFactorCodeDeliveryRequest",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/user/password/reset/init",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Begin password reset operation",
-      "notes" : "Begins password reset operation",
-      "type" : "Response",
-      "nickname" : "resetPasswordInit",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Password reset request init descriptor",
-        "required" : true,
-        "type" : "TokenRequest",
+        "type" : "UserLoginRequest",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -399,8 +378,11 @@
         "userIdOrEmail" : {
           "type" : "string"
         },
-        "credential" : {
-          "type" : "string"
+        "credentials" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
@@ -464,7 +446,7 @@
         "username" : {
           "type" : "string"
         },
-        "password" : {
+        "pinHash" : {
           "type" : "string"
         },
         "passwordHash" : {

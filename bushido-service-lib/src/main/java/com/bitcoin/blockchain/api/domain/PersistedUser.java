@@ -120,4 +120,8 @@ public class PersistedUser extends User {
                 this.lastName
         );
     }
+
+    public String toString() {
+        return "Firstname: " + firstName + " Lastname " + lastName + "Username: " + username + " Organization: " + organization + " Email: " + email + " Phone code: " + countryCode + " Telephone: " + phone;
+    }
 }

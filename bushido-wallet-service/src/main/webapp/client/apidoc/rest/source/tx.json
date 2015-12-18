@@ -5,27 +5,6 @@
   "resourcePath" : "/tx",
   "produces" : [ "application/json" ],
   "apis" : [ {
-    "path" : "/tx/pushtx",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Push Tx",
-      "notes" : "Pushes Tx on the wire",
-      "type" : "Response",
-      "nickname" : "pushtx",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Tx hex",
-        "required" : true,
-        "type" : "Tx",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
     "path" : "/tx/notifytx",
     "operations" : [ {
       "method" : "POST",
@@ -38,6 +17,27 @@
         "description" : "Payload",
         "required" : true,
         "type" : "ChainMessage",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/tx/pushtx",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Push Tx",
+      "notes" : "Pushes Tx on the wire",
+      "type" : "Response",
+      "nickname" : "pushtx",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Tx hex",
+        "required" : true,
+        "type" : "Tx",
         "paramType" : "body",
         "allowMultiple" : false
       } ],

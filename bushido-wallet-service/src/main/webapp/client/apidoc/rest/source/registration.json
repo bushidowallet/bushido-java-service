@@ -5,6 +5,48 @@
   "resourcePath" : "/registration",
   "produces" : [ "application/json" ],
   "apis" : [ {
+    "path" : "/registration/organization",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Handle client registration, create organization",
+      "notes" : "Handles client registration. Creates organization",
+      "type" : "Response",
+      "nickname" : "createOrganization",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Organization object",
+        "required" : true,
+        "type" : "RegOrganization",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
+    "path" : "/registration/pin",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "Handle client registration, creates a PIN",
+      "notes" : "Handles client registration, creates a PIN",
+      "type" : "Response",
+      "nickname" : "setPin",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "PIN object",
+        "required" : true,
+        "type" : "RegUserPin",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 200,
+        "message" : "Ok"
+      } ]
+    } ]
+  }, {
     "path" : "/registration/user",
     "operations" : [ {
       "method" : "POST",
@@ -38,27 +80,6 @@
         "description" : "Wallet descriptor",
         "required" : true,
         "type" : "RegV2WalletDescriptor",
-        "paramType" : "body",
-        "allowMultiple" : false
-      } ],
-      "responseMessages" : [ {
-        "code" : 200,
-        "message" : "Ok"
-      } ]
-    } ]
-  }, {
-    "path" : "/registration/organization",
-    "operations" : [ {
-      "method" : "POST",
-      "summary" : "Handle client registration, create organization",
-      "notes" : "Handles client registration. Creates organization",
-      "type" : "Response",
-      "nickname" : "createOrganization",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Organization object",
-        "required" : true,
-        "type" : "RegOrganization",
         "paramType" : "body",
         "allowMultiple" : false
       } ],
@@ -168,6 +189,20 @@
         }
       }
     },
+    "RegUserPin" : {
+      "id" : "RegUserPin",
+      "properties" : {
+        "regCode" : {
+          "type" : "string"
+        },
+        "pin" : {
+          "$ref" : "Number"
+        },
+        "username" : {
+          "type" : "string"
+        }
+      }
+    },
     "V2WalletAccount" : {
       "id" : "V2WalletAccount",
       "properties" : {
@@ -211,6 +246,9 @@
         "regCode" : {
           "type" : "string"
         },
+        "password" : {
+          "type" : "string"
+        },
         "roles" : {
           "type" : "array",
           "items" : {
@@ -220,7 +258,7 @@
         "username" : {
           "type" : "string"
         },
-        "password" : {
+        "pinHash" : {
           "type" : "string"
         },
         "passwordHash" : {

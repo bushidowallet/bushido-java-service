@@ -125,6 +125,80 @@ https://api.bushidowallet.com/walletapi/api/v2/organization/
 #### Overview
 Registration management
 
+#### **POST** `/registration/organization`
+##### createOrganization 
+
+Handle client registration, create organization
+Handles client registration. Creates organization
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/registration/organization
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Organization object</td>
+        <td><a href="#RegOrganization">RegOrganization</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/registration/pin`
+##### setPin 
+
+Handle client registration, creates a PIN
+Handles client registration, creates a PIN
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/registration/pin
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>PIN object</td>
+        <td><a href="#RegUserPin">RegUserPin</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
 #### **POST** `/registration/user`
 ##### createUser 
 
@@ -199,84 +273,10 @@ https://api.bushidowallet.com/walletapi/api/v2/registration/wallet
 
 
 - - -
-#### **POST** `/registration/organization`
-##### createOrganization 
-
-Handle client registration, create organization
-Handles client registration. Creates organization
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/registration/organization
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Organization object</td>
-        <td><a href="#RegOrganization">RegOrganization</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
 ### /tx
 #### Overview
 Operations on transactions
 
-#### **POST** `/tx/pushtx`
-##### pushtx 
-
-Push Tx
-Pushes Tx on the wire
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/tx/pushtx
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Tx hex</td>
-        <td><a href="#Tx">Tx</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
 #### **POST** `/tx/notifytx`
 ##### notifyConfirmed 
 
@@ -300,6 +300,43 @@ https://api.bushidowallet.com/walletapi/api/v2/tx/notifytx
         <td>true</td>
         <td>Payload</td>
         <td><a href="#ChainMessage">ChainMessage</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/tx/pushtx`
+##### pushtx 
+
+Push Tx
+Pushes Tx on the wire
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/tx/pushtx
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Tx hex</td>
+        <td><a href="#Tx">Tx</a></td>
     </tr>
 </table>
 
@@ -378,14 +415,14 @@ https://api.bushidowallet.com/walletapi/api/v2/user/
 
 
 - - -
-#### **POST** `/user/`
-##### create 
+#### **POST** `/user/password/reset/code`
+##### verifyResetPasswordCode 
 
-Create a user
-Creates a user object
+Verify user token&#39;s 2FA code
+Verify user's token 2FA code
 
 ###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/code
 ###### Parameters
 - body
 
@@ -399,8 +436,8 @@ https://api.bushidowallet.com/walletapi/api/v2/user/
     <tr>
         <th>body</th>
         <td>true</td>
-        <td>User object</td>
-        <td><a href="#User">User</a></td>
+        <td>Tokens 2FA descriptor</td>
+        <td><a href="#SecondFactorTokenRequest">SecondFactorTokenRequest</a></td>
     </tr>
 </table>
 
@@ -412,18 +449,202 @@ https://api.bushidowallet.com/walletapi/api/v2/user/
 | Status Code | Reason      | Response Model |
 |-------------|-------------|----------------|
 | 200    | Ok | - |
-| 401    | Invalid Credentials | - |
 
 
 - - -
-#### **POST** `/user/auth`
-##### login 
+#### **POST** `/user/password/reset/init`
+##### resetPasswordInit 
 
-Authenticate user
-Authenticates the user and returns a list of owned wallets
+Begin password reset operation
+Begins password reset operation
 
 ###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/auth
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Password reset request init descriptor</td>
+        <td><a href="#TokenRequest">TokenRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/account/verify/init`
+##### initAccountVerify 
+
+Request a verification link
+Requests a verification link
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/account/verify/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Account request descriptor</td>
+        <td><a href="#AccountRequest">AccountRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/token`
+##### requestVerificationToken2FACode 
+
+Send 2FA code to verification token&#39;s user phone via either 2FA application or SMS
+Send 2FA code to verification token's user phone via either 2FA application or SMS
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/token
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Token request descriptor</td>
+        <td><a href="#SecondFactorCodeDeliveryRequest">SecondFactorCodeDeliveryRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/password/reset/confirm`
+##### confirmResetPassword 
+
+Confirm password reset
+Confirms password reset
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/confirm
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Password reset confirmation descriptor</td>
+        <td><a href="#PasswordResetConfirmationRequest">PasswordResetConfirmationRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/auth/code/token`
+##### requestToken 
+
+Send auth token to user&#39;s phone phone via either 2FA application or SMS
+Sends auth token to user's phone via either 2FA application or SMS
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/auth/code/token
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Token request descriptor</td>
+        <td><a href="#Token2FARequest">Token2FARequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/user/auth/code`
+##### authCode 
+
+Authenticate user with 2FA code
+Validates user's 2FA code and returns a list of owned wallets
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/user/auth/code
 ###### Parameters
 - body
 
@@ -490,80 +711,6 @@ https://api.bushidowallet.com/walletapi/api/v2/user/account/verify
 
 
 - - -
-#### **POST** `/user/auth/code`
-##### authCode 
-
-Authenticate user with 2FA code
-Validates user's 2FA code and returns a list of owned wallets
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/auth/code
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Login descriptor</td>
-        <td><a href="#UserLoginRequest">UserLoginRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[UserLoginResponse](#UserLoginResponse)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/user/auth/code/token`
-##### requestToken 
-
-Send auth token to user&#39;s phone phone via either 2FA application or SMS
-Sends auth token to user's phone via either 2FA application or SMS
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/auth/code/token
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Token request descriptor</td>
-        <td><a href="#Token2FARequest">Token2FARequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
 #### **POST** `/user/password/reset`
 ##### resetPassword 
 
@@ -601,14 +748,14 @@ https://api.bushidowallet.com/walletapi/api/v2/user/password/reset
 
 
 - - -
-#### **POST** `/user/password/reset/confirm`
-##### confirmResetPassword 
+#### **POST** `/user/auth`
+##### login 
 
-Confirm password reset
-Confirms password reset
+Authenticate user
+Authenticates the user and returns a list of owned wallets
 
 ###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/confirm
+https://api.bushidowallet.com/walletapi/api/v2/user/auth
 ###### Parameters
 - body
 
@@ -622,161 +769,13 @@ https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/confirm
     <tr>
         <th>body</th>
         <td>true</td>
-        <td>Password reset confirmation descriptor</td>
-        <td><a href="#PasswordResetConfirmationRequest">PasswordResetConfirmationRequest</a></td>
+        <td>Login descriptor</td>
+        <td><a href="#UserLoginRequest">UserLoginRequest</a></td>
     </tr>
 </table>
 
 ###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/user/account/verify/init`
-##### initAccountVerify 
-
-Request a verification link
-Requests a verification link
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/account/verify/init
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Account request descriptor</td>
-        <td><a href="#AccountRequest">AccountRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/user/password/reset/code`
-##### verifyResetPasswordCode 
-
-Verify user token&#39;s 2FA code
-Verify user's token 2FA code
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/code
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Tokens 2FA descriptor</td>
-        <td><a href="#SecondFactorTokenRequest">SecondFactorTokenRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/user/password/reset/token`
-##### requestVerificationToken2FACode 
-
-Send 2FA code to verification token&#39;s user phone via either 2FA application or SMS
-Send 2FA code to verification token's user phone via either 2FA application or SMS
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/token
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Token request descriptor</td>
-        <td><a href="#SecondFactorCodeDeliveryRequest">SecondFactorCodeDeliveryRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/user/password/reset/init`
-##### resetPasswordInit 
-
-Begin password reset operation
-Begins password reset operation
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/user/password/reset/init
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Password reset request init descriptor</td>
-        <td><a href="#TokenRequest">TokenRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
+[UserLoginResponse](#UserLoginResponse)
 
 
 ###### Errors
@@ -1020,291 +1019,6 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/keys
 
 
 - - -
-#### **POST** `/wallet/auth`
-##### login 
-
-Login to wallet
-Checks whether user has permissions to access wallet
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/auth
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Wallet descriptor</td>
-        <td><a href="#LoginRequest">LoginRequest</a></td>
-    </tr>
-</table>
-
-###### Response
-[LoginResponse](#LoginResponse)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **POST** `/wallet/topup/init`
-##### initTopUp 
-
-Initialize top-up process
-Initializes top-up process
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/topup/init
-###### Parameters
-- body
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>body</th>
-        <td>true</td>
-        <td>Wallet descriptor</td>
-        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **GET** `/wallet/transactions`
-##### getTransactions 
-
-Get wallet transactions
-Gets transactions with current statuses
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions
-###### Parameters
-- query
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>key</th>
-        <td>true</td>
-        <td>Wallet key</td>
-        <td>string</td>
-    </tr>
-    <tr>
-        <th>account</th>
-        <td>true</td>
-        <td>Account</td>
-        <td>int</td>
-    </tr>
-</table>
-
-###### Response
-[List](#)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **GET** `/wallet/{key}/spend/all/{address}/push`
-##### spendAllUTXOPush 
-
-Push Tx spending all UTXOs
-Pushes Tx spending all UTXOs
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/push
-###### Parameters
-- path
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>key</th>
-        <td>true</td>
-        <td>Wallet key (identifier)</td>
-        <td>string</td>
-    </tr>
-    <tr>
-        <th>address</th>
-        <td>true</td>
-        <td>Receiving address</td>
-        <td>string</td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-| 400    | Bad request | - |
-
-
-- - -
-#### **GET** `/wallet/transactions/outgoing/dt`
-##### getOutgoingTransactionsDt 
-
-Get outgoing wallet transactions for DataTables
-Gets outgoing transactions (spending outputs) with current statuses in a format that is required for DataTables component
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/outgoing/dt
-###### Parameters
-- query
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>key</th>
-        <td>true</td>
-        <td>Wallet key</td>
-        <td>string</td>
-    </tr>
-</table>
-
-###### Response
-[TransactionsDTDataProvider](#TransactionsDTDataProvider)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **GET** `/wallet/transactions/dt`
-##### getTransactionsDt 
-
-Get wallet transactions for DataTables
-Gets transactions with current statuses in a format that is required for DataTables component
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/dt
-###### Parameters
-- query
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>key</th>
-        <td>true</td>
-        <td>Wallet key</td>
-        <td>string</td>
-    </tr>
-    <tr>
-        <th>account</th>
-        <td>true</td>
-        <td>Account</td>
-        <td>int</td>
-    </tr>
-</table>
-
-###### Response
-[TransactionsDTDataProvider](#TransactionsDTDataProvider)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-
-
-- - -
-#### **GET** `/wallet/{key}/spend/all/{address}/generate`
-##### spendAllUTXOGenerate 
-
-Generate Tx spending all UTXOs
-Generates Tx spending all UTXOs
-
-###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/generate
-###### Parameters
-- path
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>key</th>
-        <td>true</td>
-        <td>Wallet key (identifier)</td>
-        <td>string</td>
-    </tr>
-    <tr>
-        <th>address</th>
-        <td>true</td>
-        <td>Receiving address</td>
-        <td>string</td>
-    </tr>
-</table>
-
-###### Response
-[Response](#Response)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 200    | Ok | - |
-| 400    | Bad request | - |
-
-
-- - -
 #### **GET** `/wallet/transactions/outgoing`
 ##### getOutgoingTransactions 
 
@@ -1385,6 +1099,124 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/keys
 
 
 - - -
+#### **GET** `/wallet/transactions/outgoing/dt`
+##### getOutgoingTransactionsDt 
+
+Get outgoing wallet transactions for DataTables
+Gets outgoing transactions (spending outputs) with current statuses in a format that is required for DataTables component
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/outgoing/dt
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[TransactionsDTDataProvider](#TransactionsDTDataProvider)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/{key}/spend/all/{address}/generate`
+##### spendAllUTXOGenerate 
+
+Generate Tx spending all UTXOs
+Generates Tx spending all UTXOs
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/generate
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>address</th>
+        <td>true</td>
+        <td>Receiving address</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 400    | Bad request | - |
+
+
+- - -
+#### **GET** `/wallet/transactions/unspentoutputs`
+##### getUnspentOutputs 
+
+Get wallet&#39;s unspent outputs
+Gets wallet's unspent outputs.
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutputs
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
 #### **GET** `/wallet/transactions/keys/dt`
 ##### getTransactionsKeysDt 
 
@@ -1428,14 +1260,14 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/keys/dt
 
 
 - - -
-#### **GET** `/wallet/transactions/unspentoutputs`
-##### getUnspentOutputs 
+#### **GET** `/wallet/transactions/dt`
+##### getTransactionsDt 
 
-Get wallet&#39;s unspent outputs
-Gets wallet's unspent outputs.
+Get wallet transactions for DataTables
+Gets transactions with current statuses in a format that is required for DataTables component
 
 ###### URL
-https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutputs
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/dt
 ###### Parameters
 - query
 
@@ -1452,10 +1284,177 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutput
         <td>Wallet key</td>
         <td>string</td>
     </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[TransactionsDTDataProvider](#TransactionsDTDataProvider)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **GET** `/wallet/{key}/spend/all/{address}/push`
+##### spendAllUTXOPush 
+
+Push Tx spending all UTXOs
+Pushes Tx spending all UTXOs
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/{key}/spend/all/{address}/push
+###### Parameters
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key (identifier)</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>address</th>
+        <td>true</td>
+        <td>Receiving address</td>
+        <td>string</td>
+    </tr>
 </table>
 
 ###### Response
 [Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+| 400    | Bad request | - |
+
+
+- - -
+#### **GET** `/wallet/transactions`
+##### getTransactions 
+
+Get wallet transactions
+Gets transactions with current statuses
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>key</th>
+        <td>true</td>
+        <td>Wallet key</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <th>account</th>
+        <td>true</td>
+        <td>Account</td>
+        <td>int</td>
+    </tr>
+</table>
+
+###### Response
+[List](#)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/wallet/topup/init`
+##### initTopUp 
+
+Initialize top-up process
+Initializes top-up process
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/topup/init
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#V2WalletDescriptor">V2WalletDescriptor</a></td>
+    </tr>
+</table>
+
+###### Response
+[Response](#Response)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 200    | Ok | - |
+
+
+- - -
+#### **POST** `/wallet/auth`
+##### login 
+
+Login to wallet
+Checks whether user has permissions to access wallet
+
+###### URL
+https://api.bushidowallet.com/walletapi/api/v2/wallet/auth
+###### Parameters
+- body
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>body</th>
+        <td>true</td>
+        <td>Wallet descriptor</td>
+        <td><a href="#LoginRequest">LoginRequest</a></td>
+    </tr>
+</table>
+
+###### Response
+[LoginResponse](#LoginResponse)
 
 
 ###### Errors
@@ -2019,6 +2018,13 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutput
         <td>-</td>
     </tr>
     <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
         <td>boolean</td>
         <td>optional</td>
         <td>-</td>
@@ -2034,6 +2040,41 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutput
     </tr>
     <tr>
         <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+
+
+## <a name="RegUserPin">RegUserPin</a>
+
+<table border="1">
+    <tr>
+        <th>type</th>
+        <th>required</th>
+        <th>access</th>
+        <th>description</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>optional</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td><a href="#Number">Number</a></td>
         <td>optional</td>
         <td>-</td>
         <td>-</td>
@@ -2726,7 +2767,7 @@ https://api.bushidowallet.com/walletapi/api/v2/wallet/transactions/unspentoutput
         <td>-</td>
     </tr>
     <tr>
-        <td>string</td>
+        <td>Array[string]</td>
         <td>optional</td>
         <td>-</td>
         <td>-</td>
