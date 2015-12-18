@@ -387,7 +387,7 @@ public class UserServiceImpl implements UserService {
         if (userDAO.hasUser(username) == false) {
             if (userDAO.hasUserWithEmail(email) == false) {
                 if (organizationDAO.hasOrganization(organization) == true) {
-                    PersistedUser user = new PersistedUser(username, password, Arrays.asList("ROLE_USER"), organization, email, phone, countryCode);
+                    PersistedUser user = new PersistedUser(username, null, Arrays.asList("ROLE_USER"), organization, email, phone, countryCode);
                     user.firstName = firstName;
                     user.lastName = lastName;
                     createPasswordHash(user, password);
@@ -410,13 +410,14 @@ public class UserServiceImpl implements UserService {
 
     public Response setPin(UserPin pin) {
         final Response op = new Response();
-        if (userDAO.hasUser(pin.username) == false) {
+        if (userDAO.hasUser(pin.username) == true) {
             if (pinRegistry.isRegistered(pin) == false) {
                 pinRegistry.add(pin);
                 try {
                     userDAO.setPinHash(pin.username, createPinHash(pin));
+                    op.setPayload(true);
                 } catch (Exception e) {
-
+                    op.setPayload(false);
                 }
             } else {
                 op.addError(new Error(Error.PIN_ALREADY_SET));
