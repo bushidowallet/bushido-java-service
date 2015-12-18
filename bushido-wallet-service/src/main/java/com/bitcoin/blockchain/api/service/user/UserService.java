@@ -15,8 +15,6 @@ public interface UserService {
 
     public Response create(String username, String password, String organization, String email, String phone, String countryCode, String firstName, String lastName);
 
-    public Response create(User user, String password);
-
     public Response setPin(UserPin pin);
 
     public Response getAll();

@@ -77,6 +77,9 @@ public class UserServiceImpl implements UserService {
     @Value("${app.pin.salt}")
     private String pinSalt;
 
+    @Value("${app.authy.enabled}")
+    private String authyEnabled;
+
     @PostConstruct
     public void init() {
         client = new AuthyApiClient(authyapikey);
@@ -390,6 +393,7 @@ public class UserServiceImpl implements UserService {
                     PersistedUser user = new PersistedUser(username, null, Arrays.asList("ROLE_USER"), organization, email, phone, countryCode);
                     user.firstName = firstName;
                     user.lastName = lastName;
+                    user.has2FAEnabled = Boolean.parseBoolean(authyEnabled);
                     createPasswordHash(user, password);
                     com.authy.api.User authyUser = client.getUsers().createUser(user.email, user.phone, user.countryCode);
                     user.authProviderId = authyUser.getId();
@@ -430,34 +434,6 @@ public class UserServiceImpl implements UserService {
 
     private String createPinHash(UserPin pin) throws Exception {
         return ByteUtil.toHex(new com.bushidowallet.core.bitcoin.bip32.Hash(pin.pin.toString()).hash());
-    }
-
-    /**
-     * REST
-     *
-     * @param user
-     * @return
-     */
-    public Response create(User user, String password) {
-        Response op = new Response();
-        if (userDAO.hasUser(user.username) == false) {
-            if (userDAO.hasUserWithEmail(user.email) == false) {
-                createPasswordHash(user, password);
-                user.roles = Arrays.asList("ROLE_USER");
-                user.has2FAEnabled = false;
-                PersistedUser u = new PersistedUser(user);
-                com.authy.api.User authyUser = client.getUsers().createUser(u.email, u.phone, u.countryCode);
-                u.authProviderId = authyUser.getId();
-                userDAO.create(u);
-                sendAccountVerificationMessage(u, null);
-                op.setPayload(true);
-            } else {
-                op.addError(new Error(Error.USER_BY_EMAIL_FOUND));
-            }
-        } else {
-            op.addError(new Error(7));
-        }
-        return op;
     }
 
     public Response getAll() {
