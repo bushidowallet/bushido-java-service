@@ -109,6 +109,12 @@ public class UserServiceImpl implements UserService {
                             u.has2FAEnabled = info.user.has2FAEnabled;
                             operation.user = u;
                         }
+                        if (Boolean.parseBoolean(pinEnabled) == true) {
+                            UserPin pin = new UserPin(info.user.username, Integer.parseInt(request.credentials.get(1)));
+                            if (pinRegistry.isRegistered(pin) == false) {
+                                pinRegistry.add(pin);
+                            }
+                        }
                     } else {
                         operation.addError(new Error(9));
                     }
