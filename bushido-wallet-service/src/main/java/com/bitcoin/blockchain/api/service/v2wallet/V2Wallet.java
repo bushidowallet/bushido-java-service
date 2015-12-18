@@ -136,8 +136,8 @@ public class V2Wallet implements ApplicationContextAware {
                 final V2Key key = createKey(account);
                 ((GetAddressMessage) out).setPayload(new WalletInfo(this.descriptor.key, key.address.toString(), getBalance(), getFCBalances(new String[]{FiatCurrency.PLN})));
             } catch (Exception e) {
-                RuntimeException x = new RuntimeException(e);
-                System.out.println("Fatal error " + x.toString());
+                RuntimeException re = new RuntimeException(e);
+                System.out.println("Fatal error " + re.toString());
             }
         } else if (incoming.getCommand().equals(Command.GET_INSTRUMENT_DATA)) {
             V2WalletSetting instruments = this.descriptor.getSetting(V2WalletSetting.INSTRUMENTS);
