@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
                             operation.user = u;
                         }
                         if (Boolean.parseBoolean(pinEnabled) == true) {
-                            UserPin pin = new UserPin(info.user.username, Integer.parseInt(request.credentials.get(1)));
+                            UserPin pin = new UserPin(info.user.username, request.credentials.get(1));
                             if (pinRegistry.isRegistered(pin) == false) {
                                 pinRegistry.add(pin);
                             }

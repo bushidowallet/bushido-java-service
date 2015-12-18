@@ -7,7 +7,7 @@ public class RegUserPin extends UserPin {
 
     public String regCode;
 
-    public RegUserPin(String username, Number pin) {
+    public RegUserPin(String username, String pin) {
         super(username, pin);
     }
 

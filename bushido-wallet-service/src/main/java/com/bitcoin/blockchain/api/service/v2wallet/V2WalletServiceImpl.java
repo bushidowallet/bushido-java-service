@@ -292,6 +292,8 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
             V2Wallet wallet = wallets.getWallet(incoming.getKey());
             if (wallet == null) {
                 wallet = init(incoming.getKey());
+            } else {
+                wallet.init();
             }
             wallet.messageTo((IMessage) incoming);
         }

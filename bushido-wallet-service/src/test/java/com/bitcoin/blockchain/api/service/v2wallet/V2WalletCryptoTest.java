@@ -16,7 +16,7 @@ public class V2WalletCryptoTest {
     private String passphraseHash = "85e14868018cb94f0436d7dc58fad98ef40c66da923b3b63933247195a8747fb";
     private String encryptedPassphraseHash = "ZEzH39MvCD7UQxJ4kfxfqmZxrJmeiFtlvFqo1G0wDRE/qoYBt/hotCh49epPHOvk1BmLOvSvaMZTUiAQU/B30YlZI/2Uo1tgua77WRg3q40=";
     private String pinSalt = "SatoshiNakamotoDeservesTheNobelPrizeLikeNoOneElse";
-    private Number pin = 4031;
+    private String pin = "4031";
 
     @BeforeClass
     public static void init() {

@@ -7,10 +7,10 @@ import java.io.Serializable;
  */
 public class UserPin implements Serializable {
 
-    public Number pin;
+    public String pin;
     public String username;
 
-    public UserPin(String username, Number pin) {
+    public UserPin(String username, String pin) {
 
         this.username = username;
         this.pin = pin;
