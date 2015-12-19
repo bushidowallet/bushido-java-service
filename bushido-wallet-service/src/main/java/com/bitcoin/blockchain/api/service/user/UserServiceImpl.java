@@ -93,6 +93,12 @@ public class UserServiceImpl implements UserService {
             if (uv != null) {
                 if (uv.hasVerification(UserVerification.UserVerificationType.emailVerified.name())) {
                     if (info.valid == true) {
+                        if (Boolean.parseBoolean(pinEnabled) == true) {
+                            UserPin pin = new UserPin(info.user.username, request.credentials.get(1));
+                            if (pinRegistry.isRegistered(pin) == false) {
+                                pinRegistry.add(pin);
+                            }
+                        }
                         if (info.user.has2FAEnabled == false) {
                             List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(info.user.username);
                             List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
@@ -108,12 +114,6 @@ public class UserServiceImpl implements UserService {
                             u.username = info.user.username;
                             u.has2FAEnabled = info.user.has2FAEnabled;
                             operation.user = u;
-                        }
-                        if (Boolean.parseBoolean(pinEnabled) == true) {
-                            UserPin pin = new UserPin(info.user.username, request.credentials.get(1));
-                            if (pinRegistry.isRegistered(pin) == false) {
-                                pinRegistry.add(pin);
-                            }
                         }
                     } else {
                         operation.addError(new Error(9));
