@@ -2,7 +2,6 @@ package com.bitcoin.blockchain.api.service.v2wallet;
 
 import com.bitcoin.blockchain.api.domain.*;
 import com.bitcoin.blockchain.api.persistence.V2WalletKeyDAO;
-import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bushidowallet.core.bitcoin.bip32.Derivation;
 import com.bushidowallet.core.bitcoin.bip32.ExtendedKey;
 import com.bushidowallet.core.bitcoin.bip32.Hash;
@@ -10,7 +9,6 @@ import com.bushidowallet.core.bitcoin.bip32.Seed;
 import com.bushidowallet.core.crypto.util.ByteUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Security;
 import java.util.List;
@@ -27,15 +25,6 @@ public class V2Keygen {
 
     private Derivation derivation;
 
-    @Value("${app.pin.enabled}")
-    private String pinEnabled;
-
-    @Value("${app.pin.salt}")
-    private String pinSalt;
-
-    @Autowired
-    public UserPinRegistry pinRegistry;
-
     public V2Keygen() {
         Security.addProvider(new BouncyCastleProvider());
     }
@@ -44,9 +33,8 @@ public class V2Keygen {
         this.wallet = wallet;
     }
 
-    public void init() throws Exception {
+    public void init(String pinEnabled, String pinSalt, String pin) throws Exception {
         final boolean checkPin = Boolean.parseBoolean(pinEnabled);
-        final UserPin pin = pinRegistry.get(wallet.owner);
         final V2WalletSetting pass = wallet.getSetting(V2WalletSetting.PASSPHRASE);
         final String passphraseHash = V2WalletCrypto.decrypt((String) pass.value, checkPin, pin, pinSalt);
         final V2WalletSetting compressed = wallet.getSetting(V2WalletSetting.COMPRESSED_KEYS);

@@ -16,6 +16,8 @@ import com.bitcoin.blockchain.api.persistence.TransactionOutpointDAO;
 import com.bitcoin.blockchain.api.service.transaction.TransactionService;
 import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bitcoin.blockchain.api.util.TransactionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +35,8 @@ import java.util.*;
  * Created by Jesion on 2015-01-09.
  */
 public class V2Wallet implements ApplicationContextAware {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static long STANDARD_FEE = 20000;
 
@@ -75,12 +79,14 @@ public class V2Wallet implements ApplicationContextAware {
     @Value("${app.pin.salt}")
     private String pinSalt;
 
-    public void init() {
+    public void init(String pin) {
         keygen.setWallet(getDescriptor(false));
+        log.info( "Initializing wallet: " + descriptor.key + " pin enabled: " + pinEnabled + ", salt : " + pinSalt);
         try {
-            keygen.init();
+            keygen.init(pinEnabled, pinSalt, pin);
         } catch (Exception e) {
             System.out.println("Error while initializing Keygen...");
+            log.error("Error initializing wallet: " + descriptor.key + " pin enabled: " + pinEnabled + ", salt : " + pinSalt);
         }
     }
 
@@ -228,7 +234,7 @@ public class V2Wallet implements ApplicationContextAware {
         if (balance.confirmed + balance.unconfirmed > 0) {
             //Receive change on 0 account
             final V2Key key = createKey(0);
-            response.setPayload(new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin, pinSalt), (Boolean) compressed.value, fee).build());
+            response.setPayload(new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin.pin, pinSalt), (Boolean) compressed.value, fee).build());
         } else {
             response.addError(new Error(15));
         }
@@ -258,7 +264,7 @@ public class V2Wallet implements ApplicationContextAware {
             spendings.add(new SpendDescriptor(address, toSpend));
             String tx = null;
             try {
-                tx = new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin, pinSalt), (Boolean) compressed.value, fee).build();
+                tx = new TransactionBuilder(unspents, balance, spendings, key, V2WalletCrypto.decrypt((String) seed.value, checkPin, pin.pin, pinSalt), (Boolean) compressed.value, fee).build();
             } catch (StandardTransactionBuilder.InsufficientFundsException exception) {
 
             }

@@ -1,6 +1,5 @@
 package com.bitcoin.blockchain.api.service.v2wallet;
 
-import com.bitcoin.blockchain.api.domain.UserPin;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -25,7 +24,7 @@ public class V2WalletCryptoTest {
 
     @Test
     public void testEncrypt() {
-        String cipherText = V2WalletCrypto.encrypt(passphraseHash, true, new UserPin(null, pin), pinSalt);
+        String cipherText = V2WalletCrypto.encrypt(passphraseHash, true, pin, pinSalt);
         System.out.println("Encrypted: " + cipherText);
         Assert.assertNotNull(cipherText);
         Assert.assertEquals(encryptedPassphraseHash, cipherText);
@@ -33,7 +32,7 @@ public class V2WalletCryptoTest {
 
     @Test
     public void testDecrypt() {
-        String decryptedPassphraseHash = V2WalletCrypto.decrypt(encryptedPassphraseHash, true, new UserPin(null, pin), pinSalt);
+        String decryptedPassphraseHash = V2WalletCrypto.decrypt(encryptedPassphraseHash, true, pin, pinSalt);
         Assert.assertEquals(passphraseHash, decryptedPassphraseHash);
     }
 }

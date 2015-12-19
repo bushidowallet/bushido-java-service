@@ -1,7 +1,9 @@
 package com.bitcoin.blockchain.api.service.v2wallet;
 
+import com.bitcoin.blockchain.api.Command;
 import com.bitcoin.blockchain.api.domain.*;
 import com.bitcoin.blockchain.api.domain.Error;
+import com.bitcoin.blockchain.api.domain.message.ClientMessage;
 import com.bitcoin.blockchain.api.domain.message.ClientMessageBase;
 import com.bitcoin.blockchain.api.domain.message.IMessage;
 import com.bitcoin.blockchain.api.persistence.TopUpTransactionDAO;
@@ -13,15 +15,15 @@ import com.bitcoin.blockchain.api.service.user.UserPinRegistry;
 import com.bitcoin.blockchain.api.util.AccountUtil;
 import com.bushidowallet.core.bitcoin.bip32.Hash;
 import com.bushidowallet.core.crypto.util.ByteUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Jesion on 2015-01-09.
@@ -59,6 +61,8 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
 
     private ApplicationContext context;
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     public void setApplicationContext(ApplicationContext context) {
         this.context = context;
     }
@@ -79,7 +83,7 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
                 } else {
                     try {
                         V2WalletSetting passphrase = wallet.getSetting("passphrase");
-                        passphrase.value = V2WalletCrypto.encrypt(ByteUtil.toHex(new Hash((String) passphrase.value).hash()), checkPin, pin, pinSalt);
+                        passphrase.value = V2WalletCrypto.encrypt(ByteUtil.toHex(new Hash((String) passphrase.value).hash()), checkPin, pin.pin, pinSalt);
                         walletDAO.create(new PersistedV2WalletDescriptor(wallet));
                         List<PersistedV2WalletDescriptor> persistedWallets = walletDAO.getUserWallets(wallet.owner);
                         List<V2WalletDescriptor> wallets = new ArrayList<V2WalletDescriptor>();
@@ -288,22 +292,48 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
     From client
      */
     public void messageToWallet(ClientMessageBase incoming) {
-        if (walletDAO.hasWallet(incoming.getKey())) {
+        PersistedV2WalletDescriptor w = walletDAO.get(incoming.getKey());
+        if (w != null) {
+            if (incoming.getCommand().equals(Command.GET_ADDRESS)) {
+                if (hasPayloadEntry(incoming, "pin")) {
+                    String p = getPayloadEntry(incoming, "pin");
+                    UserPin pin = new UserPin(w.owner, p);
+                    if (pinRegistry.isRegistered(pin) == false) {
+                        pinRegistry.add(pin);
+                    }
+                }
+            }
             V2Wallet wallet = wallets.getWallet(incoming.getKey());
             if (wallet == null) {
                 wallet = init(incoming.getKey());
-            } else {
-                wallet.init();
             }
             wallet.messageTo((IMessage) incoming);
         }
     }
 
+    private String getPayloadEntry(ClientMessageBase message, String entryId) {
+        return (String) ((HashMap) ((ClientMessage) message).getPayload()).get(entryId);
+    }
+
+    private boolean hasPayloadEntry(ClientMessageBase message, String entryId) {
+        if (((ClientMessage) message).getPayload() != null ) {
+            if (((HashMap) ((ClientMessage) message).getPayload()).get(entryId) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private V2Wallet init(String key) {
         V2Wallet wallet = context.getBean("v2Wallet", V2Wallet.class);
         wallet.setDescriptor(get(key));
-        wallet.init();
-        wallets.addWallet(wallet);
+        UserPin pin = pinRegistry.get(wallet.getDescriptor(false).owner);
+        if (pin != null) {
+            wallet.init(pin.pin);
+            wallets.addWallet(wallet);
+        } else {
+            log.error("No pin set - cant initialize wallet");
+        }
         return wallet;
     }
 
