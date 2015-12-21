@@ -140,10 +140,13 @@ public class V2Wallet implements ApplicationContextAware {
                         }
                 }
                 final V2Key key = createKey(account);
-                ((GetAddressMessage) out).setPayload(new WalletInfo(this.descriptor.key, key.address.toString(), getBalance(), getFCBalances(new String[]{FiatCurrency.PLN})));
+                if (key != null) {
+                    ((GetAddressMessage) out).setPayload(new WalletInfo(this.descriptor.key, key.address.toString(), getBalance(), getFCBalances(new String[]{FiatCurrency.PLN})));
+                } else {
+                    log.error("Keygen error while attempting to generate address. No PIN available in the registry (?), so can't rebuild the root key...");
+                }
             } catch (Exception e) {
-                RuntimeException re = new RuntimeException(e);
-                System.out.println("Fatal error " + re.toString());
+                log.error(e.toString());
             }
         } else if (incoming.getCommand().equals(Command.GET_INSTRUMENT_DATA)) {
             V2WalletSetting instruments = this.descriptor.getSetting(V2WalletSetting.INSTRUMENTS);
