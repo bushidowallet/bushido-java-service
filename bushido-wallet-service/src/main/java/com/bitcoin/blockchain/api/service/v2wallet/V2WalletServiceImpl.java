@@ -294,12 +294,14 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
     public void messageToWallet(ClientMessageBase incoming) {
         PersistedV2WalletDescriptor w = walletDAO.get(incoming.getKey());
         if (w != null) {
-            if (incoming.getCommand().equals(Command.GET_ADDRESS)) {
+            if (incoming.getCommand().equals(Command.GET_ADDRESS) || incoming.getCommand().equals(Command.GET_INSTRUMENT_DATA)) {
                 if (hasPayloadEntry(incoming, "pin")) {
-                    String p = getPayloadEntry(incoming, "pin");
-                    UserPin pin = new UserPin(w.owner, p);
-                    if (pinRegistry.isRegistered(pin) == false) {
-                        pinRegistry.add(pin);
+                    Object p = getPayloadEntry(incoming, "pin");
+                    if (p instanceof String) {
+                        UserPin pin = new UserPin(w.owner, (String) p);
+                        if (pinRegistry.isRegistered(pin) == false) {
+                            pinRegistry.add(pin);
+                        }
                     }
                 }
             }
@@ -317,8 +319,12 @@ public class V2WalletServiceImpl implements V2WalletService, ApplicationContextA
 
     private boolean hasPayloadEntry(ClientMessageBase message, String entryId) {
         if (((ClientMessage) message).getPayload() != null ) {
-            if (((HashMap) ((ClientMessage) message).getPayload()).get(entryId) != null) {
-                return true;
+            HashMap payload = ((HashMap) ((ClientMessage) message).getPayload());
+            if (payload != null) {
+                Object entry = payload.get(entryId);
+                if (entry != null) {
+                    return true;
+                }
             }
         }
         return false;
