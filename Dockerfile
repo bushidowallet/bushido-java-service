@@ -12,16 +12,12 @@ FROM ubuntu:14.04
 RUN \
   echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list && \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list && \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get install -y build-essential && \
   apt-get install -y software-properties-common && \
   apt-get install -y byobu curl git htop man unzip vim wget && \
   rm -rf /var/lib/apt/lists/*
-
-   # apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-   # curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add - && \
 
 ADD root/.bashrc /root/.bashrc
 ADD root/.gitconfig /root/.gitconfig
@@ -38,21 +34,45 @@ CMD ["bash"]
 #   Java / Tomcat
 #
 ###
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get install default-jdk -y
-RUN groupadd tomcat
-RUN useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
-RUN cd ~
-RUN wget http://mirror.sdunix.com/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz
-RUN mkdir /opt/tomcat
-RUN tar xvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
-RUN cd /opt/tomcat
-RUN chgrp -R tomcat /opt/tomcat/conf
-RUN chmod g+rwx /opt/tomcat/conf
-RUN chmod g+r /opt/tomcat/conf/*
-RUN chown -R tomcat /opt/tomcat/work/ /opt/tomcat/temp/ /opt/tomcat/logs/
-COPY tomcat.conf /etc/init/tomcat.conf
-RUN echo "service tomcat status"
+RUN \
+  apt-get update && apt-get -y upgrade && \
+  apt-get install default-jdk -y && \
+  groupadd tomcat && \
+  useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat && \
+  cd ~ && \
+  wget http://mirror.sdunix.com/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz && \
+  mkdir /opt/tomcat && \
+  tar xvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1 && \
+  cd /opt/tomcat && \
+  chgrp -R tomcat /opt/tomcat/conf && \
+  chmod g+rwx /opt/tomcat/conf && \
+  chmod g+r /opt/tomcat/conf/* && \
+  chown -R tomcat /opt/tomcat/work/ /opt/tomcat/temp/ /opt/tomcat/logs/
+
+ADD tomcat.conf /etc/init/tomcat.conf
 
 EXPOSE 8080
 
+###
+#
+#   Mongo DB
+#
+###
+RUN \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
+  echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list && \
+  apt-get update && \
+  apt-get install -y mongodb-org
+
+###
+#
+#   Rabbit MQ
+#
+###
+RUN \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
+  curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add - && \
+  apt-get update && \
+  apt-get -y install rabbitmq-server
+
+EXPOSE 5672
