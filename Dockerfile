@@ -56,6 +56,7 @@ EXPOSE 8080
 ###
 #
 #   Mongo DB
+#   TODO: database setup, mongo client auth setup..
 #
 ###
 RUN \
@@ -67,6 +68,7 @@ RUN \
 ###
 #
 #   Rabbit MQ
+#   TODO: create bushido user
 #
 ###
 RUN \
@@ -90,7 +92,7 @@ RUN \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
   chown -R www-data:www-data /var/lib/nginx
 
-VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+VOLUME ["/etc/nginx/sites-available", "/etc/nginx/sites-enabled", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/app.bushidowallet.com/html"]
 
 EXPOSE 80
 EXPOSE 443
