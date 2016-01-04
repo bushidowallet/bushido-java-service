@@ -79,6 +79,9 @@ RUN \
 
 EXPOSE 5672
 
+CMD \
+  rabbitmqctl add_user bushido bushido
+
 ###
 #
 #   Nginx
