@@ -56,7 +56,6 @@ EXPOSE 8080
 ###
 #
 #   Mongo DB
-#   TODO: database setup, mongo client auth setup..
 #
 ###
 RUN \
@@ -65,10 +64,15 @@ RUN \
   apt-get update && \
   apt-get install -y mongodb-org
 
+ADD conf/mongodb/init-mongo.sh /root/init-mongo.sh
+
+CMD \
+  service mongod start $$ \
+  /root/init-mongo.sh
+
 ###
 #
 #   Rabbit MQ
-#   TODO: create bushido user
 #
 ###
 RUN \
@@ -80,6 +84,7 @@ RUN \
 EXPOSE 5672
 
 CMD \
+  service rabbitmq-server start $$ \
   rabbitmqctl add_user bushido bushido
 
 ###
