@@ -64,6 +64,8 @@ RUN \
   apt-get update && \
   apt-get install -y mongodb-org
 
+
+ADD conf/mongodb/mongod.conf /etc/mongod.conf
 ADD conf/mongodb/init-mongo.sh /root/init-mongo.sh
 
 CMD \
