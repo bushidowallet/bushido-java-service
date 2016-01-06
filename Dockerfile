@@ -16,7 +16,7 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y build-essential && \
   apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
+  apt-get install -y sed byobu curl git htop man unzip vim wget && \
   rm -rf /var/lib/apt/lists/*
 
 ADD root/.bashrc /root/.bashrc
@@ -64,30 +64,12 @@ RUN \
   apt-get update && \
   apt-get install -y mongodb-org
 
-
 ADD conf/mongodb/mongod.conf /etc/mongod.conf
 ADD conf/mongodb/init-mongo.js /root/init-mongo.js
 
 CMD \
   service mongod start $$ \
   mongo /root/init-mongo.js
-
-###
-#
-#   Rabbit MQ
-#
-###
-RUN \
-  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-  curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add - && \
-  apt-get update && \
-  apt-get -y install rabbitmq-server
-
-EXPOSE 5672
-
-CMD \
-  service rabbitmq-server start $$ \
-  rabbitmqctl add_user bushido bushido
 
 ###
 #
