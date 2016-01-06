@@ -66,11 +66,11 @@ RUN \
 
 
 ADD conf/mongodb/mongod.conf /etc/mongod.conf
-ADD conf/mongodb/init-mongo.sh /root/init-mongo.sh
+ADD conf/mongodb/init-mongo.js /root/init-mongo.js
 
 CMD \
   service mongod start $$ \
-  /root/init-mongo.sh
+  mongo /root/init-mongo.js
 
 ###
 #
