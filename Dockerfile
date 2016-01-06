@@ -49,7 +49,7 @@ RUN \
   chmod g+r /opt/tomcat/conf/* && \
   chown -R tomcat /opt/tomcat/work/ /opt/tomcat/temp/ /opt/tomcat/logs/
 
-ADD conf/tomcat/tomcat-dev.conf /etc/init/tomcat.conf
+ADD conf/tomcat/tomcat.conf /etc/init/tomcat.conf
 
 EXPOSE 8080
 
